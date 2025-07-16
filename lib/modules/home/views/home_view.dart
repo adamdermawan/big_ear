@@ -30,7 +30,17 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Big Ear")),
+      appBar: AppBar(
+        title: const Text(
+          "Big Ear",
+          style: TextStyle(
+            fontFamily: 'Ubuntu',
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.black, // Example: Change text color
+          ),
+        ),
+      ),
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
@@ -43,7 +53,13 @@ class _HomeViewState extends State<HomeView> {
                 child: ListView(
                   children: [
                     const SizedBox(height: 16), // Add some top padding
-                    Text(state.message, style: const TextStyle(fontSize: 24)),
+                    Text(
+                      state.message,
+                      style: const TextStyle(
+                        fontFamily: 'Ubuntu',
+                        fontSize: 24,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     const TextField(
                       decoration: InputDecoration(
@@ -62,8 +78,12 @@ class _HomeViewState extends State<HomeView> {
                           true, // Important to make it work inside a ListView
                       physics:
                           const NeverScrollableScrollPhysics(), // Disable GridView's scrolling
-                      children: const [
-                        Icon(Icons.store, size: 40),
+                      children: [
+                        Image.asset(
+                          'assets/icons/tokopedia.png',
+                          width: 22,
+                          height: 22,
+                        ),
                         Icon(Icons.shopping_cart, size: 40),
                         Icon(Icons.favorite, size: 40),
                         Icon(Icons.account_balance_wallet, size: 40),

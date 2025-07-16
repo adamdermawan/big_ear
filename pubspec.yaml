@@ -24,7 +24,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    # - assets/images/  
+    - assets/icons/  
+    - assets/fonts/
+
+  fonts:
+    - family: Ubuntu 
+      fonts:
+        - asset: assets/fonts/Ubuntu-R.ttf 
+        - asset: assets/fonts/Ubuntu-B.ttf    
+
+
 flutter_icons:  # 👈 Add this at the bottom
   android: true
   ios: true
-  image_path: "assets/icon/app-icon.png"
+  image_path: "assets/icons/app-icon.png"

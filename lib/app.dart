@@ -25,7 +25,23 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Elephant App',
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: 'Ubuntu',
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontFamily: 'Ubuntu',
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          // You might want to adjust textTheme for more control over different text styles
+          // textTheme: const TextTheme(
+          //   bodyLarge: TextStyle(fontFamily: 'YourFontFamilyName'),
+          //   // ... other text styles
+          // ),
+        ),
         home: const HomeView(), // you can route to others based on logic later
       ),
     );
