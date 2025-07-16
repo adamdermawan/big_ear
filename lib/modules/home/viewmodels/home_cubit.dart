@@ -10,7 +10,6 @@ class HomeCubit extends Cubit<HomeState> {
     await Future.delayed(const Duration(seconds: 2)); // simulate API delay
 
     try {
-      // Simulate a successful result
       emit(HomeLoaded("Welcome Guest.."));
     } catch (e) {
       emit(HomeError("Gagal Boss..."));

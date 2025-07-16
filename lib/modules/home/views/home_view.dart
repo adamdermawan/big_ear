@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:carousel_slider/carousel_slider.dart'; // ✅ 1. Import the package
+import 'package:carousel_slider/carousel_slider.dart';
 import '../viewmodels/home_cubit.dart';
 import '../viewmodels/home_state.dart';
+import 'webview_screen.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,11 +15,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
 
-  // ✅ 2. Define your image list for the carousel
   final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+    'assets/images/image-1.jpg',
+    'assets/images/image-2.jpg',
+    'assets/images/image-3.jpg',
   ];
 
   @override
@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
             fontFamily: 'Ubuntu',
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.black, // Example: Change text color
+            color: Colors.black,
           ),
         ),
       ),
@@ -49,10 +49,9 @@ class _HomeViewState extends State<HomeView> {
             } else if (state is HomeLoaded) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                // ✅ 3. Change Column to ListView to make the page scrollable
                 child: ListView(
                   children: [
-                    const SizedBox(height: 16), // Add some top padding
+                    const SizedBox(height: 16),
                     Text(
                       state.message,
                       style: const TextStyle(
@@ -71,26 +70,81 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // ✅ 4. Modify GridView
                     GridView.count(
-                      crossAxisCount: 4,
-                      shrinkWrap:
-                          true, // Important to make it work inside a ListView
-                      physics:
-                          const NeverScrollableScrollPhysics(), // Disable GridView's scrolling
+                      crossAxisCount: 5,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        Image.asset(
-                          'assets/icons/tokopedia.png',
-                          width: 22,
-                          height: 22,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WebViewScreen(
+                                  url:
+                                      'https://www.tokopedia.com/elephantbed?entrance_name=search_suggestion_store&source=universe&st=product',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/tokopedia.png',
+                            width: 12,
+                            height: 12,
+                          ),
                         ),
-                        Icon(Icons.shopping_cart, size: 40),
-                        Icon(Icons.favorite, size: 40),
-                        Icon(Icons.account_balance_wallet, size: 40),
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WebViewScreen(
+                                  url:
+                                      'https://shopee.co.id/elephantofficial?entryPoint=ShopBySearch&searchKeyword=elephant%20spring%20bed',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/shopee.png',
+                            width: 12,
+                            height: 12,
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WebViewScreen(
+                                  url:
+                                      'https://www.lazada.co.id/tag/elephant-springbed/?spm=a2o4j.tm80363353.search.d_go&q=elephant%20springbed&catalog_redirect_tag=true',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/icons/lazada.png',
+                            width: 12,
+                            height: 12,
+                          ),
+                        ),
+
+                        Image.asset(
+                          'assets/icons/akulaku.png',
+                          width: 12,
+                          height: 12,
+                        ),
+                        Image.asset(
+                          'assets/icons/blibli.png',
+                          width: 12,
+                          height: 12,
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 24), // Space before the carousel
-                    // ✅ 5. Add the CarouselSlider widget
+                    const SizedBox(height: 24),
                     CarouselSlider(
                       options: CarouselOptions(
                         autoPlay: true,
@@ -104,7 +158,7 @@ class _HomeViewState extends State<HomeView> {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(8.0),
                                 ),
-                                child: Image.network(
+                                child: Image.asset(
                                   item,
                                   fit: BoxFit.cover,
                                   width: 1000,
