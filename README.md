@@ -1,6 +1,6 @@
-# big_ear
+# Big Ear
 
-A new Flutter project.
+Aplikasi
 Untuk Kelulusan Lala
 Doakan Saja yaaa
 
