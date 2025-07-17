@@ -19,8 +19,6 @@ class _HomeViewState extends State<HomeView> {
     'assets/images/image-1.jpg',
     'assets/images/image-2.jpg',
     'assets/images/image-3.jpg',
-    // 'assets/images/image-4.jpg',
-    // 'assets/images/image-5.jpg',
   ];
 
   @override
@@ -150,6 +148,7 @@ class _HomeViewState extends State<HomeView> {
                         child: Column(
                           children: [
                             const SizedBox(height: 16),
+                            // First row of marketplace icons
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -214,7 +213,13 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ],
                             ),
+
+                            const SizedBox(height: 16),
+
+                            // Second row of social media icons
                             const SizedBox(height: 24),
+
+                            // Carousel
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -237,6 +242,27 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                   )
                                   .toList(),
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/instagram.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                Image.asset(
+                                  'assets/icons/tik-tok.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                                Image.asset(
+                                  'assets/icons/whatsapp.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                              ],
                             ),
                           ],
                         ),
