@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../viewmodels/home_cubit.dart';
 import '../viewmodels/home_state.dart';
-import 'webview_screen.dart';
+import '../../shared/views/webview_screen.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -13,8 +13,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _selectedIndex = 0;
-
   final List<String> imgList = [
     'assets/images/image-1.jpg',
     'assets/images/image-2.jpg',
@@ -148,7 +146,6 @@ class _HomeViewState extends State<HomeView> {
                         child: Column(
                           children: [
                             const SizedBox(height: 16),
-                            // First row of marketplace icons
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -215,11 +212,8 @@ class _HomeViewState extends State<HomeView> {
                             ),
 
                             const SizedBox(height: 16),
-
-                            // Second row of social media icons
                             const SizedBox(height: 24),
 
-                            // Carousel
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -272,34 +266,11 @@ class _HomeViewState extends State<HomeView> {
                 ],
               );
             } else if (state is HomeError) {
-              return Center(child: Text("Error: ${state.error}"));
+              return Center(child: Text("Error: \${state.error}"));
             }
             return const Center(child: Text("Initializing..."));
           },
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'AI Chat'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Review'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Items',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
-        ],
       ),
     );
   }

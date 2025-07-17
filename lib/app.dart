@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Import cubits (ViewModels)
 import 'modules/home/viewmodels/home_cubit.dart';
-// import 'modules/ai_chat/viewmodels/ai_chat_cubit.dart';
-// import 'modules/items/viewmodels/item_cubit.dart';
-// import 'modules/user/viewmodels/user_cubit.dart';
+import 'modules/ai_chat/viewmodels/ai_chat_cubit.dart';
+import 'modules/review/viewmodels/review_cubit.dart';
+import 'modules/items/viewmodels/items_cubit.dart';
+import 'modules/user/viewmodels/user_cubit.dart';
 
-// Import initial screen
-import 'modules/home/views/home_view.dart';
+// Import main navigation widget
+import 'modules/shared/views/main_navigation.dart'; // <-- your new widget
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,9 +19,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeCubit()),
-        // BlocProvider(create: (_) => AIChatCubit()),
-        // BlocProvider(create: (_) => ItemCubit()),
-        // BlocProvider(create: (_) => UserCubit()),
+        BlocProvider(create: (_) => AiChatCubit()),
+        BlocProvider(create: (_) => ReviewCubit()),
+        BlocProvider(create: (_) => ItemsCubit()),
+        BlocProvider(create: (_) => UserCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -36,13 +38,8 @@ class MyApp extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          // You might want to adjust textTheme for more control over different text styles
-          // textTheme: const TextTheme(
-          //   bodyLarge: TextStyle(fontFamily: 'YourFontFamilyName'),
-          //   // ... other text styles
-          // ),
         ),
-        home: const HomeView(), // you can route to others based on logic later
+        home: const MainNavigation(), // <-- Use global navigation here
       ),
     );
   }
