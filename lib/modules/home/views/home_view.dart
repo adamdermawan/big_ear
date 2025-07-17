@@ -17,6 +17,8 @@ class _HomeViewState extends State<HomeView> {
     'assets/images/image-1.jpg',
     'assets/images/image-2.jpg',
     'assets/images/image-3.jpg',
+    'assets/images/image-4.jpg',
+    'assets/images/image-5.jpg',
   ];
 
   @override
