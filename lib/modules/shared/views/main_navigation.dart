@@ -49,7 +49,7 @@ class _MainScaffoldState extends State<MainNavigation> {
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Review'),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
-            label: 'Items',
+            label: 'Produk',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
         ],

@@ -1,3 +1,5 @@
+import '../models/spring_bed_item.dart';
+
 abstract class ItemsState {}
 
 class ItemsInitial extends ItemsState {}
@@ -5,8 +7,8 @@ class ItemsInitial extends ItemsState {}
 class ItemsLoading extends ItemsState {}
 
 class ItemsLoaded extends ItemsState {
-  final String message;
-  ItemsLoaded(this.message);
+  final List<SpringBedItem> items;
+  ItemsLoaded(this.items);
 }
 
 class ItemsError extends ItemsState {
