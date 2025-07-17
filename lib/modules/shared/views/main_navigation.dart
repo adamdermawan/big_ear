@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../home/views/home_view.dart';
 import '../../ai_chat/views/ai_chat_view.dart';

@@ -1,8 +1,9 @@
+import 'package:big_ear/modules/items/views/items_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../viewmodels/items_cubit.dart';
 import '../viewmodels/items_state.dart';
-import '../models/spring_bed_item.dart';
 import 'package:big_ear/core/network/mock_up_api.dart';
 
 class ItemsView extends StatefulWidget {
@@ -73,6 +74,15 @@ class _ItemsViewState extends State<ItemsView> {
                         ),
                         child: Card(
                           child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ItemsDetailView(item: item),
+                                ),
+                              );
+                            },
                             leading: Image.asset(
                               item['imageAsset'],
                               width: 48,
@@ -80,10 +90,26 @@ class _ItemsViewState extends State<ItemsView> {
                               fit: BoxFit.cover,
                             ),
                             title: Text(item['name']),
-                            subtitle: Text(
-                              item['desc'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RatingBarIndicator(
+                                  rating: item['rate']?.toDouble() ?? 0.0,
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  itemCount: 5,
+                                  itemSize: 18.0,
+                                  direction: Axis.horizontal,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  item['desc'],
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           ),
                         ),
