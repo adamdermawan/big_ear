@@ -9,7 +9,7 @@ class ItemsDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Detail Item')),
+      appBar: AppBar(title: Text('Detail Produk')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -48,7 +48,11 @@ class ItemsDetailView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Text(item['desc']),
+            Text(
+              item['desc'],
+              textAlign: TextAlign.justify,
+              style: const TextStyle(fontSize: 14),
+            ),
           ],
         ),
       ),
