@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
                     left: 0,
                     right: 0,
                     child: Image.asset(
-                      'assets/images/search-bar-background.jpg',
+                      'assets/images/search-bar-background.png',
                       fit: BoxFit.cover,
                       height: 250,
                     ),
