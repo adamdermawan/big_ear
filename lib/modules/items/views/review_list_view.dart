@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:big_ear/core/network/mock_up_api.dart';
 import '../models/review.dart'; // You'll need this Review model
-import '../models/user.dart'; // Optional: for reviewer name
+import '../../user/models/user.dart'; // Optional: for reviewer name
 
 class ReviewListView extends StatelessWidget {
   final int itemId;
@@ -101,9 +101,8 @@ class ReviewListView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final review = reviews[index];
                   final user = users.firstWhere(
-                    (u) => u.phoneNumber == review.userPhone,
-                    orElse: () =>
-                        User(phoneNumber: review.userPhone, name: 'User'),
+                    (u) => u.email == review.userEmail,
+                    orElse: () => User(email: review.userEmail, name: 'User'),
                   );
 
                   final formattedDate = DateFormat.yMMMd().format(

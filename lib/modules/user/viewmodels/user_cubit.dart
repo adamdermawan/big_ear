@@ -1,18 +1,26 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/user.dart';
 import 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());
 
-  void loadUser() async {
+  void login(String email, String password) async {
     emit(UserLoading());
+    await Future.delayed(const Duration(seconds: 1));
 
-    await Future.delayed(const Duration(seconds: 2)); // simulate API delay
+    // Simulate login success
+    final mockUser = User(email: email, name: "Adam Dermawan");
+    emit(UserAuthenticated(mockUser));
+  }
 
-    try {
-      emit(UserLoaded("This is User Page Still in Construction"));
-    } catch (e) {
-      emit(UserError("Failed to load..."));
-    }
+  void loginAsGuest() async {
+    emit(UserLoading());
+    await Future.delayed(const Duration(seconds: 1));
+    emit(UserGuest());
+  }
+
+  void logout() {
+    emit(UserInitial());
   }
 }

@@ -1,12 +1,12 @@
 class Review {
   final int itemId;
-  final String userPhone;
+  final String userEmail;
   final double rating;
   final String comment;
 
   Review({
     required this.itemId,
-    required this.userPhone,
+    required this.userEmail,
     required this.rating,
     required this.comment,
   });
@@ -14,7 +14,7 @@ class Review {
   factory Review.fromJson(Map<String, dynamic> json) {
     return Review(
       itemId: json['itemId'],
-      userPhone: json['userPhone'],
+      userEmail: json['userEmail'],
       rating: (json['rating'] ?? 0.0).toDouble(),
       comment: json['comment'] ?? '',
     );
@@ -23,7 +23,7 @@ class Review {
   Map<String, dynamic> toJson() {
     return {
       'itemId': itemId,
-      'userPhone': userPhone,
+      'userEmail': userEmail,
       'rating': rating,
       'comment': comment,
     };

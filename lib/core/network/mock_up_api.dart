@@ -18,28 +18,28 @@ const List<Map<String, dynamic>> springBed = [
 ];
 
 const List<Map<String, dynamic>> mockUsers = [
-  {"phoneNumber": "081234567890", "name": "Ahmad IrfanW."},
-  {"phoneNumber": "089876543210", "name": "ZE. Ferdi F. Putra"},
-  {"phoneNumber": "081333333333", "name": "Rulx ID"},
+  {"email": "blepetan@yahoo.com", "name": "Ahmad IrfanW."},
+  {"email": "jarangmandi@gmail.com", "name": "ZE. Ferdi F. Putra"},
+  {"email": "yipiyeye@rocketmail.com", "name": "Rulx ID"},
 ];
 
 const List<Map<String, dynamic>> mockReviews = [
   {
     "itemId": 1,
-    "userPhone": "081234567890",
+    "userEmail": "blepetan@yahoo.com",
     "rating": 5.0,
     "comment": "agak relate ama yg terjadi di rl saya:)",
   },
   {
     "itemId": 1,
-    "userPhone": "089876543210",
+    "userEmail": "jarangmandi@gmail.com",
     "rating": 4.5,
     "comment":
         "buku ini bagus banget untuk seseorang yang sedang atau pernah merasakan kedukaan dan kesepian...",
   },
   {
     "itemId": 1,
-    "userPhone": "081333333333",
+    "userEmail": "yipiyeye@rocketmail.com",
     "rating": 5.0,
     "comment": "meaningful. makasih dok.",
   },
