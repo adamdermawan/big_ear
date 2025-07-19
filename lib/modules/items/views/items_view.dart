@@ -1,10 +1,10 @@
-import 'package:big_ear/modules/items/views/items_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:big_ear/core/network/mock_up_api.dart';
 import '../viewmodels/items_cubit.dart';
 import '../viewmodels/items_state.dart';
-import 'package:big_ear/core/network/mock_up_api.dart';
+import 'items_detail_view.dart';
 
 class ItemsView extends StatefulWidget {
   const ItemsView({super.key});

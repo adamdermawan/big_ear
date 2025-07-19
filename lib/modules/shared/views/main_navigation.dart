@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../home/views/home_view.dart';
 import '../../ai_chat/views/ai_chat_view.dart';
-import '../../review/views/review_view.dart';
 import '../../items/views/items_view.dart';
 import '../../user/views/user_view.dart';
 
@@ -19,7 +18,7 @@ class _MainScaffoldState extends State<MainNavigation> {
   final List<Widget> _pages = const [
     HomeView(),
     AIChatView(),
-    ReviewView(),
+    // ReviewView(),
     ItemsView(),
     UserView(),
   ];
@@ -45,7 +44,7 @@ class _MainScaffoldState extends State<MainNavigation> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'AI Chat'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Review'),
+          // BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Review'),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: 'Produk',

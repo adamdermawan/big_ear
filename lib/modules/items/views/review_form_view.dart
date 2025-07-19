@@ -18,7 +18,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Beri Ulasan')),
+      appBar: AppBar(title: Text('Beri Review')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(

@@ -1,4 +1,4 @@
-import '../../shared/models/spring_bed_item.dart';
+import '../models/spring_bed_item.dart';
 
 abstract class ItemsState {}
 

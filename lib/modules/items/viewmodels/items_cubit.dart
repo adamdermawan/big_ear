@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:big_ear/core/network/mock_up_api.dart';
-import '../../shared/models/spring_bed_item.dart';
+import '../models/spring_bed_item.dart';
 import 'items_state.dart';
 
 class ItemsCubit extends Cubit<ItemsState> {

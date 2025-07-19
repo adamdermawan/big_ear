@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Import cubits (ViewModels)
 import 'modules/home/viewmodels/home_cubit.dart';
 import 'modules/ai_chat/viewmodels/ai_chat_cubit.dart';
-import 'modules/review/viewmodels/review_cubit.dart';
 import 'modules/items/viewmodels/items_cubit.dart';
 import 'modules/user/viewmodels/user_cubit.dart';
 
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => AiChatCubit()),
-        BlocProvider(create: (_) => ReviewCubit()),
         BlocProvider(create: (_) => ItemsCubit()),
         BlocProvider(create: (_) => UserCubit()),
       ],
