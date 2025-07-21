@@ -1,6 +1,7 @@
 import 'package:big_ear/modules/items/models/spring_bed_item.dart'; // Import SpringBedItem
 import 'package:big_ear/modules/items/views/review_form_view.dart';
 import 'package:big_ear/modules/items/views/review_list_view.dart';
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -71,7 +72,7 @@ class ItemsDetailView extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
+                    backgroundColor: primaryBlue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -93,7 +94,7 @@ class ItemsDetailView extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
+                    backgroundColor: primaryBlue,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(

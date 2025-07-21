@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
@@ -80,7 +81,7 @@ class ReviewListView extends StatelessWidget {
                   Expanded(
                     child: LinearProgressIndicator(
                       value: percent,
-                      color: Colors.blue,
+                      color: primaryBlue,
                       backgroundColor: Colors.grey[300],
                       minHeight: 8,
                     ),

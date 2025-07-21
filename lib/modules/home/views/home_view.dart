@@ -63,13 +63,10 @@ class _HomeViewState extends State<HomeView> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(
-                                    Icons.earbuds,
-                                    color: Colors.black,
-                                  ),
+                                  const Icon(Icons.bed, color: Colors.black),
                                   const SizedBox(width: 4),
                                   const Text(
-                                    'Big Ear',
+                                    'BIG EAR',
                                     style: TextStyle(
                                       fontFamily: 'Ubuntu',
                                       fontSize: 16,
@@ -83,10 +80,6 @@ class _HomeViewState extends State<HomeView> {
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  const Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: Colors.white,
                                   ),
                                 ],
                               ),

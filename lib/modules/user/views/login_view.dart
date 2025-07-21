@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "MAY MAY",
+                    "BIG EAR",
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   const Text("hair · nail · make up"),

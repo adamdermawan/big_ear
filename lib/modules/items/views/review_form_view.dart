@@ -1,4 +1,5 @@
 import 'package:big_ear/modules/items/models/spring_bed_item.dart'; // Import SpringBedItem
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -93,7 +94,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlue,
+                backgroundColor: primaryBlue,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(

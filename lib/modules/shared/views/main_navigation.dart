@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../home/views/home_view.dart';
@@ -37,7 +38,7 @@ class _MainScaffoldState extends State<MainNavigation> {
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.black,
+        selectedItemColor: primaryBlue,
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: true,

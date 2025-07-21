@@ -38,7 +38,7 @@ class UserView extends StatelessWidget {
                   child: Column(
                     children: [
                       const Text(
-                        "MAY MAY",
+                        "BIG EAR",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class UserView extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        "hair · nail · make up",
+                        "springbed · accessories · 2in1bed",
                         style: TextStyle(fontSize: 14),
                       ),
                       const SizedBox(height: 24),
