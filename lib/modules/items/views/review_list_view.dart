@@ -3,8 +3,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 import 'package:big_ear/core/network/mock_up_api.dart';
-import '../models/review.dart'; // You'll need this Review model
-import '../../user/models/user.dart'; // Optional: for reviewer name
+import '../models/review.dart';
+import '../../user/models/user.dart';
 
 class ReviewListView extends StatelessWidget {
   final int itemId;

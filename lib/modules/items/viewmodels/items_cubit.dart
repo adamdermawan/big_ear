@@ -7,14 +7,16 @@ class ItemsCubit extends Cubit<ItemsState> {
   ItemsCubit() : super(ItemsInitial());
 
   void loadItems() async {
-    emit(ItemsLoading());
-    await Future.delayed(const Duration(seconds: 1)); // simulate loading
-
     try {
-      final items = springBed.map((e) => SpringBedItem.fromJson(e)).toList();
-      emit(ItemsLoaded(items));
+      emit(ItemsLoading());
+      // Use the new helper function to get items with calculated ratings and reviews
+      final List<SpringBedItem> items = getSpringBedItemsWithReviews();
+      await Future.delayed(
+        const Duration(milliseconds: 500),
+      ); // Simulate network delay
+      emit(ItemsLoaded(items: items));
     } catch (e) {
-      emit(ItemsError("Failed to load..."));
+      emit(ItemsError('Failed to load items: $e'));
     }
   }
 }

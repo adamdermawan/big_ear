@@ -1,10 +1,11 @@
+import 'package:big_ear/modules/items/models/spring_bed_item.dart'; // Import SpringBedItem
 import 'package:big_ear/modules/items/views/review_form_view.dart';
 import 'package:big_ear/modules/items/views/review_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ItemsDetailView extends StatelessWidget {
-  final Map<String, dynamic> item;
+  final SpringBedItem item; // Change type to SpringBedItem
 
   const ItemsDetailView({super.key, required this.item});
 
@@ -18,21 +19,21 @@ class ItemsDetailView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              item['imageAsset'],
+              item.imageAsset, // Use item.imageAsset
               width: double.infinity,
               height: 400,
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 16),
             Text(
-              item['name'],
+              item.name, // Use item.name
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Row(
               children: [
                 Text(
-                  '${item['rate']?.toStringAsFixed(1) ?? '0.0'}',
+                  '${item.rate.toStringAsFixed(1)}', // Use item.rate
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -40,7 +41,7 @@ class ItemsDetailView extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 RatingBarIndicator(
-                  rating: item['rate']?.toDouble() ?? 0.0,
+                  rating: item.rate, // Use item.rate
                   itemBuilder: (context, _) =>
                       const Icon(Icons.star, color: Colors.amber),
                   itemCount: 5,
@@ -51,7 +52,7 @@ class ItemsDetailView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              item['desc'],
+              item.desc, // Use item.desc
               textAlign: TextAlign.justify,
               style: const TextStyle(fontSize: 14),
             ),
@@ -65,7 +66,7 @@ class ItemsDetailView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ReviewListView(itemId: item['id']),
+                            ReviewListView(itemId: item.id), // Use item.id
                       ),
                     );
                   },
@@ -79,13 +80,15 @@ class ItemsDetailView extends StatelessWidget {
                   ),
                   child: const Text('Lihat Review'),
                 ),
-                const SizedBox(height: 12), // Space between buttons
+                const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReviewFormView(item: item),
+                        builder: (context) => ReviewFormView(
+                          item: item,
+                        ), // Pass the SpringBedItem object
                       ),
                     );
                   },

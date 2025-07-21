@@ -1,8 +1,9 @@
+import 'package:big_ear/modules/items/models/spring_bed_item.dart'; // Import SpringBedItem
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ReviewFormView extends StatefulWidget {
-  final Map<String, dynamic> item;
+  final SpringBedItem item; // Change type to SpringBedItem
 
   const ReviewFormView({super.key, required this.item});
 
@@ -13,12 +14,12 @@ class ReviewFormView extends StatefulWidget {
 class _ReviewFormViewState extends State<ReviewFormView> {
   double _rating = 0;
   String _reviewText = '';
-  String? _twoStepAnswer;
+  String? _twoStepAnswer; // This part is commented out, keeping it as is.
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Beri Review')),
+      appBar: AppBar(title: const Text('Beri Review')), // Added const
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
@@ -27,12 +28,10 @@ class _ReviewFormViewState extends State<ReviewFormView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    16,
-                  ), // Adjust radius as needed
+                  borderRadius: BorderRadius.circular(16),
                   child: Image.asset(
-                    widget.item['imageAsset'],
-                    width: 144, // Same as 72 * 2
+                    widget.item.imageAsset, // Use widget.item.imageAsset
+                    width: 144,
                     height: 144,
                     fit: BoxFit.cover,
                   ),
@@ -40,7 +39,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    widget.item['name'],
+                    widget.item.name, // Use widget.item.name
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -83,33 +82,19 @@ class _ReviewFormViewState extends State<ReviewFormView> {
 
             const SizedBox(height: 20),
 
-            // 2FA Question
-            // Text('Does this app have 2-step verification?'),
-            // Wrap(
-            //   spacing: 10,
-            //   children: ['Yes', 'No', 'Not Sure'].map((answer) {
-            //     return ChoiceChip(
-            //       label: Text(answer),
-            //       selected: _twoStepAnswer == answer,
-            //       onSelected: (_) {
-            //         setState(() => _twoStepAnswer = answer);
-            //       },
-            //     );
-            //   }).toList(),
-            // ),
-            const SizedBox(height: 30),
-
             // Submit Button
             ElevatedButton(
               onPressed: () {
                 print('Rating: $_rating');
                 print('Review: $_reviewText');
-                print('2FA: $_twoStepAnswer');
+                print(
+                  '2FA: $_twoStepAnswer',
+                ); // Still prints this if uncommented
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlue, // Button background color
-                foregroundColor: Colors.white, // Text (and icon) color
+                backgroundColor: Colors.lightBlue,
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
