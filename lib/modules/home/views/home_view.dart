@@ -1,3 +1,4 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -152,63 +153,115 @@ class _HomeViewState extends State<HomeView> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const WebViewScreen(
-                                          url:
-                                              'https://www.tokopedia.com/elephantbed?entrance_name=search_suggestion_store&source=universe&st=product',
-                                        ),
-                                      ),
+                                  onTap: () async {
+                                    final uri = Uri.parse(
+                                      'tokopedia://store/elephantbed',
                                     );
+                                    if (await canLaunchUrl(uri)) {
+                                      await launchUrl(uri);
+                                    } else {
+                                      final fallback = Uri.parse(
+                                        'https://www.tokopedia.com/elephantbed?entrance_name=search_suggestion_store&source=universe&st=product',
+                                      );
+                                      await launchUrl(
+                                        fallback,
+                                        mode: LaunchMode.externalApplication,
+                                      );
+                                    }
                                   },
-                                  child: Image.asset(
-                                    'assets/icons/tokopedia.png',
-                                    width: 64,
-                                    height: 64,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/tokopedia-svgrepo-com.png',
+                                        width: 64,
+                                        height: 64,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Tokopedia',
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const WebViewScreen(
-                                          url:
-                                              'https://shopee.co.id/elephantofficial?entryPoint=ShopBySearch&searchKeyword=elephant%20spring%20bed',
-                                        ),
-                                      ),
+                                  onTap: () async {
+                                    final uri = Uri.parse(
+                                      'https://shopee.co.id/elephantofficial?entryPoint=ShopBySearch&searchKeyword=elephant%20spring%20bed',
+                                    );
+                                    await launchUrl(
+                                      uri,
+                                      mode: LaunchMode.externalApplication,
                                     );
                                   },
-                                  child: Image.asset(
-                                    'assets/icons/shopee.png',
-                                    width: 64,
-                                    height: 64,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/shopee-svgrepo-com.png',
+                                        width: 64,
+                                        height: 64,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Shopee',
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const WebViewScreen(
-                                          url:
-                                              'https://www.lazada.co.id/tag/elephant-springbed/?spm=a2o4j.tm80363353.search.d_go&q=elephant%20springbed&catalog_redirect_tag=true',
-                                        ),
-                                      ),
+                                  onTap: () async {
+                                    final uri = Uri.parse(
+                                      'https://www.lazada.co.id/tag/elephant-springbed/?spm=a2o4j.tm80363353.search.d_go&q=elephant%20springbed&catalog_redirect_tag=true',
+                                    );
+                                    await launchUrl(
+                                      uri,
+                                      mode: LaunchMode.externalApplication,
                                     );
                                   },
-                                  child: Image.asset(
-                                    'assets/icons/lazada.png',
-                                    width: 64,
-                                    height: 64,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/lazada-svgrepo-com.png',
+                                        width: 64,
+                                        height: 64,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Lazada',
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Image.asset(
-                                  'assets/icons/blibli.png',
-                                  width: 64,
-                                  height: 64,
+                                GestureDetector(
+                                  onTap: () async {
+                                    final uri = Uri.parse(
+                                      'https://www.blibli.com/search?s=elephant%20springbed',
+                                    );
+                                    await launchUrl(
+                                      uri,
+                                      mode: LaunchMode.externalApplication,
+                                    );
+                                  },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/blibli-svgrepo-com.png',
+                                        width: 64,
+                                        height: 64,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Blibli',
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -243,20 +296,62 @@ class _HomeViewState extends State<HomeView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Image.asset(
-                                  'assets/icons/instagram.png',
-                                  width: 50,
-                                  height: 50,
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/instagram-svgrepo-com.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ), // optional spacing
+                                    const Text(
+                                      'Instagram',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ), // customize as needed
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/icons/tik-tok.png',
-                                  width: 50,
-                                  height: 50,
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/tiktok-svgrepo-com.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ), // optional spacing
+                                    const Text(
+                                      'TikTok',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ), // customize as needed
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/icons/whatsapp.png',
-                                  width: 50,
-                                  height: 50,
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/whatsapp-svgrepo-com.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ), // optional spacing
+                                    const Text(
+                                      'WhatsApp',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ), // customize as needed
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
