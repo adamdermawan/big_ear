@@ -76,6 +76,52 @@ List<SpringBedItem> getSpringBedItemsWithReviews() {
         : itemReviews.map((r) => r.rating).reduce((a, b) => a + b) /
               itemReviews.length;
 
-    return item.copyWith(reviews: itemReviews, rate: avgRating);
+    // Attach user name to each review here before storing them
+    final reviewsWithUsers = itemReviews.map((review) {
+      final user = mockUsers.firstWhere(
+        (u) => u['email'] == review.userEmail,
+        orElse: () => {'name': 'Unknown User'}, // Fallback for unmatched email
+      );
+      // Use the copyWith method on Review to add the userName
+      return review.copyWith(userName: user['name'] as String);
+    }).toList();
+
+    // Use copyWith on SpringBedItem to add the calculated average rate and the reviews list
+    return item.copyWith(reviews: reviewsWithUsers, rate: avgRating);
   }).toList();
+}
+
+// Ensure formatDataForGemini now uses item.reviews[i].userName
+String formatDataForGemini() {
+  final List<SpringBedItem> items = getSpringBedItemsWithReviews();
+  StringBuffer buffer = StringBuffer();
+
+  buffer.writeln(
+    "Here is a list of product data, including items and their reviews:",
+  );
+  buffer.writeln("");
+
+  for (var item in items) {
+    buffer.writeln("---");
+    buffer.writeln("Product Name: ${item.name}");
+    buffer.writeln("Description: ${item.desc}");
+    buffer.writeln(
+      "Average Rating: ${item.rate.toStringAsFixed(1)} out of 5.0",
+    );
+
+    if (item.reviews.isNotEmpty) {
+      buffer.writeln("Reviews:");
+      for (var review in item.reviews) {
+        // Use review.userName directly
+        buffer.writeln(
+          "- User: ${review.userName ?? 'Unknown'} (Rating: ${review.rating.toStringAsFixed(1)}): ${review.comment}",
+        );
+      }
+    } else {
+      buffer.writeln("No reviews available for this product.");
+    }
+    buffer.writeln("---");
+    buffer.writeln("");
+  }
+  return buffer.toString();
 }

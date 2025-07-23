@@ -1,3 +1,5 @@
+// lib/ai_chat/viewmodels/ai_chat_state.dart
+
 abstract class AiChatState {}
 
 class AiChatInitial extends AiChatState {}

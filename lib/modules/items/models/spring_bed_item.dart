@@ -1,3 +1,5 @@
+// lib/modules/items/models/spring_bed_item.dart
+
 import 'package:big_ear/modules/items/models/review.dart'; // Import the Review model
 
 class SpringBedItem {
@@ -23,19 +25,27 @@ class SpringBedItem {
       name: json['name'],
       desc: json['desc'],
       imageAsset: json['imageAsset'],
-      rate: (json['rate'] ?? 0)
-          .toDouble(), // This 'rate' will be replaced by the calculated average
-      reviews: [], // Reviews will be loaded separately
+      // Ensure 'rate' is always a double, even if null or int from JSON
+      rate: (json['rate'] as num? ?? 0.0).toDouble(),
+      // Reviews are intended to be loaded and attached separately, so keep this empty
+      reviews: const [],
     );
   }
 
-  // Add a method to create a new SpringBedItem with updated reviews and rate
-  SpringBedItem copyWith({List<Review>? reviews, double? rate}) {
+  // Add a method to create a new SpringBedItem with updated values
+  SpringBedItem copyWith({
+    int? id, // Add other fields for full copyWith flexibility
+    String? name,
+    String? desc,
+    String? imageAsset,
+    double? rate,
+    List<Review>? reviews,
+  }) {
     return SpringBedItem(
-      id: id,
-      name: name,
-      desc: desc,
-      imageAsset: imageAsset,
+      id: id ?? this.id, // Use null-aware operator for all fields
+      name: name ?? this.name,
+      desc: desc ?? this.desc,
+      imageAsset: imageAsset ?? this.imageAsset,
       rate: rate ?? this.rate,
       reviews: reviews ?? this.reviews,
     );
