@@ -8,7 +8,9 @@ import '../viewmodels/items_state.dart';
 import 'items_detail_view.dart';
 
 class ItemsView extends StatefulWidget {
-  const ItemsView({super.key});
+  final String? searchQuery;
+
+  const ItemsView({super.key, this.searchQuery});
 
   @override
   State<ItemsView> createState() => _ItemsViewState();

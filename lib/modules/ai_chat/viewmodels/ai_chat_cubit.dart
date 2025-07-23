@@ -8,7 +8,7 @@ import 'ai_chat_state.dart';
 // IMPORTANT: Replace with your actual Gemini API Key.
 // For production, consider using environment variables (e.g., flutter_dotenv package)
 // or a secure server-side proxy to keep your API key safe.
-const String _apiKey = 'YOUR_GEMINI_API_KEY';
+const String _apiKey = 'AIzaSyCNMGrDZc_cALCJRsvETmLGH2_lMfnhA9g';
 
 class AiChatCubit extends Cubit<AiChatState> {
   late final GenerativeModel _model;

@@ -87,7 +87,7 @@ class _AIChatViewState extends State<AIChatView> {
                       // Use SelectableText to allow copying the analysis
                       state.message,
                       style: const TextStyle(fontSize: 16, height: 1.5),
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.justify,
                     ),
                   ),
                   const SizedBox(height: 24),

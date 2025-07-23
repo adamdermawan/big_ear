@@ -1,10 +1,12 @@
-import 'package:url_launcher/url_launcher.dart';
+import 'package:big_ear/modules/items/views/items_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
 import '../viewmodels/home_cubit.dart';
 import '../viewmodels/home_state.dart';
-import '../../shared/views/webview_screen.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -21,6 +23,8 @@ class _HomeViewState extends State<HomeView> {
     'assets/images/image-4.jpg',
     'assets/images/image-5.jpg',
   ];
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -56,32 +60,27 @@ class _HomeViewState extends State<HomeView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.bed, color: Colors.black),
-                                  const SizedBox(width: 4),
-                                  const Text(
-                                    'BIG EAR',
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(1.5, 1.5),
-                                          blurRadius: 2.0,
-                                          color: Colors.black,
-                                        ),
-                                      ],
+                              Icon(Icons.bed, color: Colors.black),
+                              SizedBox(width: 4),
+                              Text(
+                                'BIG EAR',
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      offset: Offset(1.5, 1.5),
+                                      blurRadius: 2.0,
+                                      color: Colors.black,
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -109,12 +108,22 @@ class _HomeViewState extends State<HomeView> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
+                            controller: _searchController,
+                            onSubmitted: (value) {
+                              if (value.trim().isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        ItemsView(searchQuery: value),
+                                  ),
+                                );
+                              }
+                            },
                             decoration: InputDecoration(
                               hintText: 'Search...',
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              ),
+                              prefixIcon: const Icon(Icons.search,
+                                  color: Colors.grey),
                               filled: true,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -122,9 +131,7 @@ class _HomeViewState extends State<HomeView> {
                                 borderSide: BorderSide.none,
                               ),
                               contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 16,
-                              ),
+                                  vertical: 0, horizontal: 16),
                             ),
                           ),
                         ),
@@ -145,123 +152,55 @@ class _HomeViewState extends State<HomeView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                GestureDetector(
-                                  onTap: () async {
+                                _buildStoreButton(
+                                  'assets/icons/tokopedia-svgrepo-com.png',
+                                  'Tokopedia',
+                                  () async {
                                     final uri = Uri.parse(
-                                      'tokopedia://store/elephantbed',
-                                    );
+                                        'tokopedia://store/elephantbed');
                                     if (await canLaunchUrl(uri)) {
                                       await launchUrl(uri);
                                     } else {
                                       final fallback = Uri.parse(
-                                        'https://www.tokopedia.com/elephantbed?entrance_name=search_suggestion_store&source=universe&st=product',
-                                      );
-                                      await launchUrl(
-                                        fallback,
-                                        mode: LaunchMode.externalApplication,
-                                      );
+                                          'https://www.tokopedia.com/elephantbed');
+                                      await launchUrl(fallback,
+                                          mode: LaunchMode.externalApplication);
                                     }
                                   },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/tokopedia-svgrepo-com.png',
-                                        width: 64,
-                                        height: 64,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'Tokopedia',
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
+                                _buildStoreButton(
+                                  'assets/icons/shopee-svgrepo-com.png',
+                                  'Shopee',
+                                  () async {
                                     final uri = Uri.parse(
-                                      'https://shopee.co.id/elephantofficial?entryPoint=ShopBySearch&searchKeyword=elephant%20spring%20bed',
-                                    );
-                                    await launchUrl(
-                                      uri,
-                                      mode: LaunchMode.externalApplication,
-                                    );
+                                        'https://shopee.co.id/elephantofficial');
+                                    await launchUrl(uri,
+                                        mode: LaunchMode.externalApplication);
                                   },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/shopee-svgrepo-com.png',
-                                        width: 64,
-                                        height: 64,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'Shopee',
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
+                                _buildStoreButton(
+                                  'assets/icons/lazada-svgrepo-com.png',
+                                  'Lazada',
+                                  () async {
                                     final uri = Uri.parse(
-                                      'https://www.lazada.co.id/tag/elephant-springbed/?spm=a2o4j.tm80363353.search.d_go&q=elephant%20springbed&catalog_redirect_tag=true',
-                                    );
-                                    await launchUrl(
-                                      uri,
-                                      mode: LaunchMode.externalApplication,
-                                    );
+                                        'https://www.lazada.co.id/tag/elephant-springbed/');
+                                    await launchUrl(uri,
+                                        mode: LaunchMode.externalApplication);
                                   },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/lazada-svgrepo-com.png',
-                                        width: 64,
-                                        height: 64,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'Lazada',
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
+                                _buildStoreButton(
+                                  'assets/icons/blibli-svgrepo-com.png',
+                                  'Blibli',
+                                  () async {
                                     final uri = Uri.parse(
-                                      'https://www.blibli.com/search?s=elephant%20springbed',
-                                    );
-                                    await launchUrl(
-                                      uri,
-                                      mode: LaunchMode.externalApplication,
-                                    );
+                                        'https://www.blibli.com/search?s=elephant%20springbed');
+                                    await launchUrl(uri,
+                                        mode: LaunchMode.externalApplication);
                                   },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/blibli-svgrepo-com.png',
-                                        width: 64,
-                                        height: 64,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'Blibli',
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
                                 ),
                               ],
                             ),
-
-                            const SizedBox(height: 16),
                             const SizedBox(height: 24),
-
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -272,9 +211,8 @@ class _HomeViewState extends State<HomeView> {
                                   .map(
                                     (item) => Center(
                                       child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: Image.asset(
                                           item,
                                           fit: BoxFit.cover,
@@ -289,62 +227,21 @@ class _HomeViewState extends State<HomeView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/instagram-svgrepo-com.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ), // optional spacing
-                                    const Text(
-                                      'Instagram',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ), // customize as needed
-                                    ),
-                                  ],
+                                _buildSocialButton(
+                                  'assets/icons/instagram-svgrepo-com.png',
+                                  'Instagram',
+                                  'https://www.instagram.com/elephantbed',
                                 ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/tiktok-svgrepo-com.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ), // optional spacing
-                                    const Text(
-                                      'TikTok',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ), // customize as needed
-                                    ),
-                                  ],
+                                _buildSocialButton(
+                                  'assets/icons/tiktok-svgrepo-com.png',
+                                  'TikTok',
+                                  'https://www.tiktok.com/@elephantmarketing',
                                 ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/whatsapp-svgrepo-com.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ), // optional spacing
-                                    const Text(
-                                      'WhatsApp',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ), // customize as needed
-                                    ),
-                                  ],
+                                _buildMessageButton(
+                                  'assets/icons/whatsapp-svgrepo-com.png',
+                                  'WhatsApp',
+                                  'https://wa.me/6285133130778?text=',
+                                  'Saya ingin membeli springbed dari Elephant',
                                 ),
                               ],
                             ),
@@ -356,7 +253,7 @@ class _HomeViewState extends State<HomeView> {
                 ],
               );
             } else if (state is HomeError) {
-              return Center(child: Text("Error: \${state.error}"));
+              return Center(child: Text("Error: ${state.error}"));
             }
             return const Center(child: Text("Initializing..."));
           },
@@ -365,20 +262,52 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildFeatureIcon(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: Colors.black),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+  Widget _buildStoreButton(String imagePath, String label, Function() onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(imagePath, width: 64, height: 64),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 13)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialButton(String icon, String label, String url) {
+    return GestureDetector(
+      onTap: () async {
+        final uri = Uri.parse(url);
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(icon, width: 50, height: 50),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 13)),
+        ],
+      ),
+    );
+  }
+
+  // This method is used to build the message button for WhatsApp
+   Widget _buildMessageButton(String icon, String label, String url, String message) {
+    return GestureDetector(
+      onTap: () async {
+        final uri = Uri.parse(url + message);
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(icon, width: 50, height: 50),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 13)),
+        ],
+      ),
     );
   }
 }
