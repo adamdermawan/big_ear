@@ -1,9 +1,10 @@
+import 'package:big_ear/core/mock/review_data.dart';
+import 'package:big_ear/core/mock/user_data.dart';
 import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
-import 'package:big_ear/core/network/mock_up_api.dart';
 import '../models/review.dart';
 import '../../user/models/user.dart';
 

@@ -2,7 +2,7 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:big_ear/core/network/mock_up_api.dart'; // Import your mock data and formatting function
+import 'package:big_ear/core/mock/gemini_data_formatter.dart'; // Import your mock data and formatting function
 import 'ai_chat_state.dart';
 
 // IMPORTANT: Replace with your actual Gemini API Key.
@@ -17,7 +17,7 @@ class AiChatCubit extends Cubit<AiChatState> {
     if (_apiKey == 'YOUR_GEMINI_API_KEY' || _apiKey.isEmpty) {
       emit(
         AiChatError(
-          "Gemini API Key is not set or is empty. Please replace 'YOUR_GEMINI_API_KEY' in ai_chat_cubit.dart with your actual key.",
+          "Gemini API Key is not set or is empty. Please use your actual Gemini API key.",
         ),
       );
       return;
