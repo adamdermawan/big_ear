@@ -14,7 +14,8 @@ class ItemsDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Detail Produk')),
-      body: Padding(
+      body: SingleChildScrollView( // ← Add this
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,6 +108,7 @@ class ItemsDetailView extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
