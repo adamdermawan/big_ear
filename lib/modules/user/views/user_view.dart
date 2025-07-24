@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../viewmodels/user_cubit.dart';
@@ -34,11 +35,9 @@ class UserView extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
               elevation: 0,
               automaticallyImplyLeading: false, // Hide back button
             ),
-            backgroundColor: Colors.white,
             body: Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -115,7 +114,7 @@ class UserView extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.green,
+                        backgroundColor: primaryBlue,
                         foregroundColor: Colors.white
                       ),
                       child: const Text("Login / Sign Up"),

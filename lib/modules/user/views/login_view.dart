@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:big_ear/modules/shared/views/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                     "BIG EAR",
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
-                  const Text("hair · nail · make up"),
+                  const Text("Springbed · pillow · accessories"),
                   const SizedBox(height: 32),
                   TextField(
                     controller: emailController,
@@ -100,18 +101,19 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: isLoading ? null : _onLogin,
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
-                      backgroundColor: Colors.brown.shade100,
+                      backgroundColor: primaryBlue,
+                      foregroundColor: Colors.white,
                     ),
                     child: isLoading
                         ? const CircularProgressIndicator()
-                        : const Text("Sign In"),
+                        : const Text("Login"),
                   ),
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {}, // To-do: Forgot Password
                     child: const Text(
                       "Forgot Password?",
-                      style: TextStyle(color: Colors.green),
+                      style: TextStyle(color: Colors.redAccent),
                     ),
                   ),
                   const Spacer(),
