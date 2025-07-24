@@ -48,4 +48,19 @@ const List<Map<String, dynamic>> mockReviews = [
     "rating": 3.5,
     "comment": "ketika saya tidur di atasnya, saya bermimpi tentang mantan saya",
   },
+
+  //Item 4 Reviews
+  {
+    "itemId": 4,
+    "userEmail": "windamurti@yahoo.com",
+    "rating": 2.5,
+    "comment": "Kasur ini tidak sesuai dengan ekspektasi saya, terlalu panas",
+  },
+  {
+    "itemId": 4,
+    "userEmail": "regina@gmail.com",
+    "rating": 3.0,
+    "comment": "bauya mirip mantan suami saya, tidak nyaman",
+  },
+
 ];

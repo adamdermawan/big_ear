@@ -35,4 +35,22 @@ const List<Map<String, dynamic>> springBed = [
     "imageAsset": "assets/testing/bed3.png",
     "rate": 3.5, // This initial rate will be overridden by calculated average
   },
+
+ {
+    "id": 4,
+    "name": "Elephant Ebox Lite Kasur springbed in a box Bonnell Spring",
+    "desc":
+        """Nikmati kenyamanan dan kepraktisan dalam satu paket dengan Kasur Elephant Ebox, kasur spring bed yang didesain untuk tidur yang lebih nyenyak dan berkualitas. Menggunakan bonnell spring berkualitas tinggi serta busa premium berkapasitas tinggi, kasur ini memberikan keseimbangan sempurna antara kenyamanan dan support tubuh. Dengan lapisan kain quilting supersoft yang lembut dan sejuk, kasur ini menjadi pilihan ideal untuk penggunaan sehari-hari.
+
+Ukuran Tersedia:
+
+- 90, 100, & 120 (gratis 1 bantal)
+- 160, 180, & 200 (gratis 2 bantal).
+
+- Garansi 10 Tahun.
+    """,
+    "imageAsset": "assets/testing/bed4.png",
+    "rate": 3.5, // This initial rate will be overridden by calculated average
+  },
+
 ];
