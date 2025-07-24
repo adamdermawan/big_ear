@@ -1,4 +1,6 @@
 import 'package:big_ear/modules/items/views/items_view.dart';
+import 'package:big_ear/modules/user/viewmodels/user_cubit.dart';
+import 'package:big_ear/modules/user/viewmodels/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,25 +87,33 @@ class _HomeViewState extends State<HomeView> {
                             ],
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            'Hi, Guest',
-                            style: TextStyle(
-                              fontFamily: 'Ubuntu',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  offset: Offset(1.5, 1.5),
-                                  blurRadius: 2.0,
-                                  color: Colors.black,
-                                ),
-                              ],
+                           Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: BlocBuilder<UserCubit, UserState>(
+                                builder: (context, userState) {
+                                  String name = 'Guest';
+                                  if (userState is UserAuthenticated) {
+                                    name = userState.user.name; // Assuming user.name exists
+                                  }
+                                  return Text(
+                                    'Hi, $name',
+                                    style: const TextStyle(
+                                      fontFamily: 'Ubuntu',
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                          offset: Offset(1.5, 1.5),
+                                          blurRadius: 2.0,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ),
                         const SizedBox(height: 12),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),

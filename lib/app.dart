@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => UserCubit()),
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => AiChatCubit()),
         BlocProvider(create: (_) => ItemsCubit()),
-        BlocProvider(create: (_) => UserCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

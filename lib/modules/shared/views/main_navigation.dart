@@ -19,7 +19,6 @@ class _MainScaffoldState extends State<MainNavigation> {
   final List<Widget> _pages = const [
     HomeView(),
     AIChatView(),
-    // ReviewView(),
     ItemsView(),
     UserView(),
   ];
@@ -45,10 +44,7 @@ class _MainScaffoldState extends State<MainNavigation> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'AI Chat'),
-          // BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Review'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Produk',
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Produk',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],

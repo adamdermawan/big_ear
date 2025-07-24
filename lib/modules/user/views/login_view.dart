@@ -1,8 +1,8 @@
+import 'package:big_ear/modules/shared/views/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../viewmodels/user_cubit.dart';
 import '../viewmodels/user_state.dart';
-import 'user_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -20,13 +20,13 @@ class _LoginViewState extends State<LoginView> {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
+    // Simple validation
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter both email and password")),
       );
       return;
     }
-
     context.read<UserCubit>().login(email, password);
   }
 
@@ -40,14 +40,15 @@ class _LoginViewState extends State<LoginView> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state is UserAuthenticated || state is UserGuest) {
+            // Navigate to the main user view on successful login/guest mode
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const UserView()),
+              MaterialPageRoute(builder: (_) => const MainNavigation()),
             );
           } else if (state is UserError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            // Show an error message if login fails
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         builder: (context, state) {
@@ -65,18 +66,15 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const Text("hair · nail · make up"),
                   const SizedBox(height: 32),
-
-                  // Email
                   TextField(
                     controller: emailController,
                     decoration: const InputDecoration(
-                      labelText: "Phone Number or Email Address",
+                      labelText: "Email Address",
                       border: OutlineInputBorder(),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
-
-                  // Password
                   TextField(
                     controller: passwordController,
                     obscureText: !isPasswordVisible,
@@ -98,8 +96,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  // Sign In button
                   ElevatedButton(
                     onPressed: isLoading ? null : _onLogin,
                     style: ElevatedButton.styleFrom(
@@ -110,35 +106,26 @@ class _LoginViewState extends State<LoginView> {
                         ? const CircularProgressIndicator()
                         : const Text("Sign In"),
                   ),
-
                   const SizedBox(height: 16),
-
-                  // Forgot Password
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {}, // To-do: Forgot Password
                     child: const Text(
                       "Forgot Password?",
                       style: TextStyle(color: Colors.green),
                     ),
                   ),
-
                   const Spacer(),
-
-                  // Guest Login
                   TextButton(
                     onPressed: isLoading ? null : _onGuestLogin,
                     child: const Text("Continue as Guest"),
                   ),
-
                   const SizedBox(height: 8),
-
-                  // Sign Up
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Don't have an account?"),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {}, // To-do: Sign up
                         child: const Text(
                           "Sign Up",
                           style: TextStyle(color: Colors.green),
