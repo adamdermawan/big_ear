@@ -1,5 +1,4 @@
 const List<Map<String, dynamic>> mockReviews = [
-  
   //Item 1 Reviews
   {
     "itemId": 1,
@@ -46,7 +45,8 @@ const List<Map<String, dynamic>> mockReviews = [
     "itemId": 3,
     "userEmail": "yipiyeye@rocketmail.com",
     "rating": 3.5,
-    "comment": "ketika saya tidur di atasnya, saya bermimpi tentang mantan saya",
+    "comment":
+        "ketika saya tidur di atasnya, saya bermimpi tentang mantan saya",
   },
 
   //Item 4 Reviews
@@ -63,4 +63,36 @@ const List<Map<String, dynamic>> mockReviews = [
     "comment": "bauya mirip mantan suami saya, tidak nyaman",
   },
 
+  //Item 5 Reviews
+  {
+    "itemId": 5,
+    "userEmail": "windamurti@yahoo.com",
+    "rating": 4.5,
+    "comment": "kasur ini cocok bgt untuk yang sakit punggung",
+  },
+  {
+    "itemId": 5,
+    "userEmail": "regina@gmail.com",
+    "rating": 4.0,
+    "comment":
+        "Suami ke3 saya suka sekali dengan kasur ini, terima kasih elephant semoga kasur saya membuat pernikahan saya kali ini langgeng",
+  },
+  {
+    "itemId": 5,
+    "userEmail": "jarangmandi@gmail.com",
+    "rating": 4.5,
+    "comment": "punggung nyaman sekali, mantap",
+  },
+  {
+    "itemId": 5,
+    "userEmail": "zukia@gmail.com",
+    "rating": 5.0,
+    "comment": "empuk dan joss, sukses selalu elephant",
+  },
+  {
+    "itemId": 5,
+    "userEmail": "piepie@gmail.com",
+    "rating": 4.5,
+    "comment": "tidur saya jadi lebih sehat. makasih :)",
+  },
 ];

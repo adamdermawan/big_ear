@@ -113,7 +113,7 @@ class ReviewListView extends StatelessWidget {
 
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: Colors.purple,
+                      backgroundColor: getRandomAvatarColor(),
                       child: Text(
                         user.name.isNotEmpty ? user.name[0] : '?',
                         style: const TextStyle(color: Colors.white),

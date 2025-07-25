@@ -20,8 +20,7 @@ const List<Map<String, dynamic>> springBed = [
   {
     "id": 3,
     "name": "Elephant Kasur Lipat 120x200",
-    "desc":
-        """Kasur Lantai Elephant Rebounded Nyaman, Ringkas, Siap Pakai!
+    "desc": """Kasur Lantai Elephant Rebounded Nyaman, Ringkas, Siap Pakai!
 
   Ingin tidur nyaman tanpa ribet? Kasur Lantai Elephant Rebounded hadir sebagai solusi praktis untuk kenyamanan maksimal! Desain minimalis, bahan berkualitas, dan dilengkapi tas jinjing eksklusif yang memudahkan dibawa ke mana saja.
 
@@ -36,7 +35,7 @@ const List<Map<String, dynamic>> springBed = [
     "rate": 3.5, // This initial rate will be overridden by calculated average
   },
 
- {
+  {
     "id": 4,
     "name": "Elephant Ebox Lite Kasur springbed in a box Bonnell Spring",
     "desc":
@@ -53,4 +52,27 @@ Ukuran Tersedia:
     "rate": 3.5, // This initial rate will be overridden by calculated average
   },
 
+  {
+    "id": 5,
+    "name": "Kasur Lantai Orthopedic",
+    "desc":
+        """Tersertifikasi K3L, Kasur Lantai isi Rebounded. Busa Awet hingga 5 tahun tidak kempes.
+
+Tersedia 2 Ukuran :
+
+- 80 x 190 x 6 cm
+-100 x 190 x 6 cm
+
+Terdapat varian isi Rebounded
+
+- Karakter Rebounded  :  Padat dan cocok untuk tulang belakang
+
+Menggunakan Zipper sehingga bisa diganti isi nya atau bisa di dry clean covernya.
+Bahan covernya menggunakan kain knitting / kain latex yang sangat lembut.
+Dapat digunakan untuk senam, meditasi, nonton tv, dibawa pergi kemping dll.
+Setiap pembelian kasur lantai ini akan mendapatkan tas untuk kasur ini sehingga mudah dibawa2. Konsepnya trendy yaitu bisa digendong tasnya.
+    """,
+    "imageAsset": "assets/testing/bed5.png",
+    "rate": 3.5, // This initial rate will be overridden by calculated average
+  },
 ];
