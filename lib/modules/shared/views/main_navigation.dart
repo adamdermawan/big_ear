@@ -18,8 +18,8 @@ class _MainScaffoldState extends State<MainNavigation> {
 
   final List<Widget> _pages = const [
     HomeView(),
-    AIChatView(),
     ItemsView(),
+    AIChatView(),
     UserView(),
   ];
 
@@ -43,9 +43,9 @@ class _MainScaffoldState extends State<MainNavigation> {
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.psychology_alt), label: 'AI Analysis'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Produk',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.psychology_alt), label: 'AI Analysis'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
