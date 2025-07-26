@@ -43,7 +43,7 @@ class _MainScaffoldState extends State<MainNavigation> {
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'AI Chat'),
+          BottomNavigationBarItem(icon: Icon(Icons.psychology_alt), label: 'AI Analysis'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Produk',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
