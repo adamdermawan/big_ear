@@ -1,106 +1,95 @@
 // lib/ai_chat/viewmodels/ai_chat_cubit.dart
 
+import 'package:big_ear/modules/ai_chat/model/chat_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:big_ear/core/mock/gemini_data_formatter.dart';
 import 'ai_chat_state.dart';
+ // MODIFIED: Import our new message model
 
-// MODIFIED: Re-import your data formatter. This is now crucial.
-import 'package:big_ear/core/mock/gemini_data_formatter.dart'; 
-
-// IMPORTANT: Replace with your actual Gemini API Key.
-const String _apiKey = 'YOUR_GEMINI_API_KEY';
+const String _apiKey = 'YOUR_GEMINI_API_KEY'; // IMPORTANT: Use your actual key
 
 class AiChatCubit extends Cubit<AiChatState> {
   late final GenerativeModel _model;
-  late final ChatSession _chat;
-  bool _isInitialized = false; // Add a flag to track successful initialization
+  bool _isInitialized = false;
 
-  AiChatCubit() : super(AiChatInitial()) {
+  // MODIFIED: The initial state is now AiChatSuccess with an empty message list.
+  AiChatCubit() : super(const AiChatSuccess()) {
     if (_apiKey == 'YOUR_GEMINI_API_KEY' || _apiKey.isEmpty) {
-      emit(
-        AiChatError(
-          "Something went wrong on our end. Please try again later.",
-        ),
-      );
-      // IMPORTANT: Add a return statement here to prevent further initialization
-      return; 
+      emit(const AiChatError("Something Went Wrong."));
+      return;
     }
 
     try {
       _model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
-      _chat = _model.startChat();
-      _isInitialized = true; // Mark as successfully initialized
+      _isInitialized = true;
     } catch (e) {
-      // Catch any errors during model/chat initialization (e.g., invalid API key format)
-      emit(
-        AiChatError(
-          "Something went wrong initializing our AI. Please try again later.",
-        ),
-      );
-      print('Error during AI model initialization: $e');
-      // No need for 'return' here as the constructor will finish,
-      // but _isInitialized will remain false, preventing `sendPrompt` from running.
+      emit(AiChatError("Failed to initialize AI: ${e.toString()}"));
     }
   }
 
   Future<void> sendPrompt(String userPrompt) async {
-    // Prevent sending prompts if the model wasn't successfully initialized
-    if (!_isInitialized) {
-      // You could optionally emit a more specific error here if you want,
-      // but the initial error state should already be active.
-      return; 
-    }
-
-    if (userPrompt.trim().isEmpty) {
+    if (!_isInitialized || userPrompt.trim().isEmpty) {
       return;
     }
+    
+    // MODIFIED: The entire logic for managing the chat list.
+    final currentState = state;
+    if (currentState is! AiChatSuccess) return;
 
-    emit(AiChatLoading());
+    // Step 1: Add user message and set loading state.
+    final userMessage = ChatMessage(text: userPrompt, author: MessageAuthor.user);
+    emit(currentState.copyWith(
+      messages: [...currentState.messages, userMessage],
+      isLoading: true,
+    ));
 
     try {
       final String productDataContext = formatDataForGemini();
-
       final String finalPrompt = """
       **ROLE AND INSTRUCTION:**
-      Anda adalah asisten AI yang ramah dan membantu untuk aplikasi e-commerce yang menjual kasur dan produk perlengkapan tidur.
+      Anda adalah asisten AI yang ramah dan membantu untuk aplikasi e-commerce yang menjual kasur ,springbed dan produk perlengkapan tidur.
       Tugas Anda HANYA menjawab pertanyaan pengguna berdasarkan konteks "DATA PRODUK" yang disediakan di bawah ini.
-
+      
       **PERATURAN:**
       1. Jawab HANYA menggunakan informasi dari bagian "DATA PRODUK". Jangan gunakan informasi eksternal apa pun.
       2. Jika pengguna bertanya tentang sesuatu yang tidak disebutkan dalam data (misalnya, "Apakah Anda menjual meja?", "Bagaimana cuacanya?"), Anda HARUS dengan sopan mengatakan bahwa Anda hanya dapat menjawab pertanyaan tentang katalog produk yang disediakan.
       3. Analisis ulasan untuk memahami sentimen pelanggan (apa yang mereka suka dan tidak suka).
       4. Pastikan jawaban Anda ringkas dan komunikatif.
-
+      
       ---
       **PRODUCT DATA:**
       $productDataContext
       ---
-
+      
       **USER'S QUESTION:**
       $userPrompt
       """;
-
-      final content = [Content.text(finalPrompt)];
       
+      final content = [Content.text(finalPrompt)];
       final response = await _model.generateContent(content);
 
+      // Step 2: Add AI response and clear loading state.
       if (response.text != null && response.text!.isNotEmpty) {
-        emit(AiChatLoaded(response.text!));
+        final modelMessage = ChatMessage(text: response.text!, author: MessageAuthor.model);
+        final latestState = state as AiChatSuccess;
+        emit(latestState.copyWith(
+          messages: [...latestState.messages, modelMessage],
+          isLoading: false,
+        ));
       } else {
-        emit(
-          AiChatLoaded(
-            "I'm sorry, I couldn't generate a response. Please try rephrasing your question.",
-          ),
-        );
+        throw Exception("Received an empty response from AI.");
       }
     } catch (e) {
-      // This catch block handles errors during the actual content generation,
-      // not initialization.
-      emit(
-        AiChatError(
-          "We're having trouble getting a response from our AI. Please try again.",
-        ),
+      final errorMessage = ChatMessage(
+        text: "Oops! Something went wrong. Please try again.",
+        author: MessageAuthor.model, // Show error as a message from the "model"
       );
+      final latestState = state as AiChatSuccess;
+      emit(latestState.copyWith(
+        messages: [...latestState.messages, errorMessage],
+        isLoading: false,
+      ));
       print('Error calling Gemini API: $e');
     }
   }

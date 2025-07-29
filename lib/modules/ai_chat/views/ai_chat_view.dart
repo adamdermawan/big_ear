@@ -1,11 +1,12 @@
 // lib/ai_chat/views/ai_chat_view.dart
 
-import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:big_ear/modules/shared/constants/colors.dart'; // Make sure this path is correct for your project
 import '../viewmodels/ai_chat_cubit.dart';
 import '../viewmodels/ai_chat_state.dart';
+import 'package:big_ear/modules/ai_chat/model/chat_message.dart';
+ // Import the message model
 
 class AIChatView extends StatefulWidget {
   const AIChatView({super.key});
@@ -15,30 +16,42 @@ class AIChatView extends StatefulWidget {
 }
 
 class _AIChatViewState extends State<AIChatView> {
-  // MODIFIED: Add a controller for the text field
   late final TextEditingController _promptController;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _promptController = TextEditingController();
-    // MODIFIED: Removed the automatic call to analyze data.
+    _scrollController = ScrollController();
   }
 
-  // MODIFIED: Dispose the controller to prevent memory leaks
   @override
   void dispose() {
     _promptController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
   
-  // MODIFIED: Extracted the send logic into a helper method
   void _submitPrompt() {
     final prompt = _promptController.text;
     if (prompt.isNotEmpty) {
       context.read<AiChatCubit>().sendPrompt(prompt);
-      _promptController.clear(); // Clear the text field after sending
-      FocusScope.of(context).unfocus(); // Hide keyboard
+      _promptController.clear();
+      FocusScope.of(context).unfocus();
+    }
+  }
+  
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      // A short delay ensures the UI has built the new item before we scroll.
+      Future.delayed(const Duration(milliseconds: 50), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
     }
   }
 
@@ -50,33 +63,50 @@ class _AIChatViewState extends State<AIChatView> {
         backgroundColor: primaryBlue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      // MODIFIED: Added Padding and a Column to structure the view
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            // This part will show the AI response and fill available space
             Expanded(
-              child: BlocBuilder<AiChatCubit, AiChatState>(
-                builder: (context, state) {
-                  if (state is AiChatLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(primaryBlue),
-                      ),
-                    );
-                  } else if (state is AiChatLoaded) {
-                    return _buildResponseCard(state.message);
-                  } else if (state is AiChatError) {
-                    return _buildErrorWidget(state.error);
+              child: BlocListener<AiChatCubit, AiChatState>(
+                listener: (context, state) {
+                  if (state is AiChatSuccess) {
+                    _scrollToBottom();
                   }
-                  // MODIFIED: Show an initial welcome message
-                  return _buildInitialView();
                 },
+                child: BlocBuilder<AiChatCubit, AiChatState>(
+                  builder: (context, state) {
+                    if (state is AiChatSuccess) {
+                      if (state.messages.isEmpty) {
+                        return _buildInitialView();
+                      }
+                      return ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        itemCount: state.messages.length + (state.isLoading ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (state.isLoading && index == state.messages.length) {
+                            return const _ChatMessageBubble(
+                              author: MessageAuthor.model,
+                              isTyping: true,
+                            );
+                          }
+                          final message = state.messages[index];
+                          return _ChatMessageBubble(
+                            message: message.text,
+                            author: message.author,
+                          );
+                        },
+                      );
+                    } else if (state is AiChatError) {
+                      return _buildErrorWidget(state.error);
+                    }
+                    return _buildInitialView(); // Default for AiChatInitial
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 16),
-            // MODIFIED: This is the new input field section
+            const SizedBox(height: 8),
             _buildPromptInput(),
           ],
         ),
@@ -84,7 +114,6 @@ class _AIChatViewState extends State<AIChatView> {
     );
   }
 
-  // MODIFIED: New widget for the initial screen
   Widget _buildInitialView() {
     return Center(
       child: Column(
@@ -107,80 +136,125 @@ class _AIChatViewState extends State<AIChatView> {
     );
   }
 
-  // MODIFIED: New widget for the text input field and send button
   Widget _buildPromptInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _promptController,
-            decoration: InputDecoration(
-              hintText: 'Tulis pertanyaanmu disini...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0, left: 4, right: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _promptController,
+              decoration: InputDecoration(
+                hintText: 'Tulis pertanyaanmu disini...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide(color: primaryBlue, width: 2),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+              onSubmitted: (_) => _submitPrompt(),
             ),
-            onSubmitted: (_) => _submitPrompt(),
           ),
-        ),
-        const SizedBox(width: 8),
-        IconButton(
-          icon: const Icon(Icons.send),
-          onPressed: _submitPrompt,
-          style: IconButton.styleFrom(
-            backgroundColor: primaryBlue,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.all(12),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // MODIFIED: Refactored response view into its own widget
-  Widget _buildResponseCard(String message) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.blueGrey.shade100),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.15),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: const Icon(Icons.send),
+            onPressed: _submitPrompt,
+            style: IconButton.styleFrom(
+              backgroundColor: primaryBlue,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.all(14),
+              shape: const CircleBorder(),
             ),
-          ],
-        ),
-        child: SelectableText(
-          message,
-          style: const TextStyle(fontSize: 16, height: 1.5),
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  // MODIFIED: Refactored error view into its own widget
   Widget _buildErrorWidget(String error) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, color: Colors.red, size: 60),
-          const SizedBox(height: 16),
-          Text(
-            error,
-            style: const TextStyle(color: Colors.red, fontSize: 16),
-            textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 60),
+            const SizedBox(height: 16),
+            Text(
+              error,
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ChatMessageBubble extends StatelessWidget {
+  const _ChatMessageBubble({
+    this.message,
+    required this.author,
+    this.isTyping = false,
+  });
+
+  final String? message;
+  final MessageAuthor author;
+  final bool isTyping;
+
+  @override
+  Widget build(BuildContext context) {
+    final isUser = author == MessageAuthor.user;
+    return Align(
+      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+        decoration: BoxDecoration(
+          color: isUser ? primaryBlue : Colors.grey[200],
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(16),
+            topRight: const Radius.circular(16),
+            bottomLeft: isUser ? const Radius.circular(16) : Radius.zero,
+            bottomRight: isUser ? Radius.zero : const Radius.circular(16),
           ),
-        ],
+        ),
+        child: isTyping
+            ? const SizedBox(
+                width: 50,
+                height: 20,
+                child: Center(
+                  // A simple typing indicator
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                  ),
+                ),
+              )
+            : SelectableText(
+                message ?? '',
+                style: TextStyle(
+                  color: isUser ? Colors.white : Colors.black87,
+                  fontSize: 16,
+                ),
+              ),
       ),
     );
   }
