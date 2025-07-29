@@ -2,64 +2,86 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:big_ear/core/mock/gemini_data_formatter.dart'; // Import your mock data and formatting function
 import 'ai_chat_state.dart';
 
+// MODIFIED: Re-import your data formatter. This is now crucial.
+import 'package:big_ear/core/mock/gemini_data_formatter.dart'; 
+
 // IMPORTANT: Replace with your actual Gemini API Key.
-// For production, consider using environment variables (e.g., flutter_dotenv package)
-// or a secure server-side proxy to keep your API key safe.
 const String _apiKey = 'YOUR_GEMINI_API_KEY';
 
 class AiChatCubit extends Cubit<AiChatState> {
   late final GenerativeModel _model;
+  late final ChatSession _chat;
+  bool _isInitialized = false; // Add a flag to track successful initialization
 
   AiChatCubit() : super(AiChatInitial()) {
     if (_apiKey == 'YOUR_GEMINI_API_KEY' || _apiKey.isEmpty) {
       emit(
         AiChatError(
-          "Gemini API Key is not set or is empty. Please use your actual Gemini API key.",
+          "Something went wrong on our end. Please try again later.",
         ),
       );
-      return;
+      // IMPORTANT: Add a return statement here to prevent further initialization
+      return; 
     }
-    _model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: _apiKey);
+
+    try {
+      _model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
+      _chat = _model.startChat();
+      _isInitialized = true; // Mark as successfully initialized
+    } catch (e) {
+      // Catch any errors during model/chat initialization (e.g., invalid API key format)
+      emit(
+        AiChatError(
+          "Something went wrong initializing our AI. Please try again later.",
+        ),
+      );
+      print('Error during AI model initialization: $e');
+      // No need for 'return' here as the constructor will finish,
+      // but _isInitialized will remain false, preventing `sendPrompt` from running.
+    }
   }
 
-  Future<void> analyzeProductData() async {
-    if (state is AiChatError &&
-        (state as AiChatError).error.contains('API Key is not set')) {
+  Future<void> sendPrompt(String userPrompt) async {
+    // Prevent sending prompts if the model wasn't successfully initialized
+    if (!_isInitialized) {
+      // You could optionally emit a more specific error here if you want,
+      // but the initial error state should already be active.
+      return; 
+    }
+
+    if (userPrompt.trim().isEmpty) {
       return;
     }
 
     emit(AiChatLoading());
 
     try {
-      final String formattedData =
-          formatDataForGemini(); // Get your formatted mock data
+      final String productDataContext = formatDataForGemini();
 
-      // --- MODIFIED PROMPT BELOW ---
-      final String prompt =
-          """
-      Hai! Saya di sini untuk membantu Anda menganalisa kepuasan orang-orang tentang produk ini.
-      Mari kita lihat deskripsi dan ulasan pelanggan, dan saya akan memberikan ringkasan yang ramah dan komunikatif.
+      final String finalPrompt = """
+      **ROLE AND INSTRUCTION:**
+      Anda adalah asisten AI yang ramah dan membantu untuk aplikasi e-commerce yang menjual kasur dan produk perlengkapan tidur.
+      Tugas Anda HANYA menjawab pertanyaan pengguna berdasarkan konteks "DATA PRODUK" yang disediakan di bawah ini.
 
-      Untuk setiap produk, saya akan memberi tahu Anda tentang secara berurutan dari rating terendah hingga tertinggi:
-      - Perasaan umum dari ulasan (apakah produk ini disukai atau tidak).
-      - Apa yang perlu diperbaiki terkait ulasan, berdasarkan apa yang dibagikan pelanggan.
-      - Pendapat terbaik dan terburuk dari pelanggan, untuk memberikan gambaran yang jelas tentang pengalaman mereka.
-
-      Sampaikan informasi ini dengan gaya percakapan yang mengalir dan alami, seolah-olah Anda sedang menjelaskannya kepada seorang konsumen.
-      Yang terpenting, **jangan gunakan format markdown** seperti huruf tebal (**), huruf miring (*), poin-poin (- atau *), atau daftar bernomor (1. 2.) dalam tanggapan Anda. Cukup berikan teks biasa.
-      Pastikan analisis hanya berdasarkan data yang diberikan di bawah ini, tanpa menambahkan informasi tambahan apa pun.
+      **PERATURAN:**
+      1. Jawab HANYA menggunakan informasi dari bagian "DATA PRODUK". Jangan gunakan informasi eksternal apa pun.
+      2. Jika pengguna bertanya tentang sesuatu yang tidak disebutkan dalam data (misalnya, "Apakah Anda menjual meja?", "Bagaimana cuacanya?"), Anda HARUS dengan sopan mengatakan bahwa Anda hanya dapat menjawab pertanyaan tentang katalog produk yang disediakan.
+      3. Analisis ulasan untuk memahami sentimen pelanggan (apa yang mereka suka dan tidak suka).
+      4. Pastikan jawaban Anda ringkas dan komunikatif.
 
       ---
-      Product Data:
-      $formattedData
+      **PRODUCT DATA:**
+      $productDataContext
       ---
+
+      **USER'S QUESTION:**
+      $userPrompt
       """;
-      // --- END OF MODIFIED PROMPT ---
 
-      final content = [Content.text(prompt)];
+      final content = [Content.text(finalPrompt)];
+      
       final response = await _model.generateContent(content);
 
       if (response.text != null && response.text!.isNotEmpty) {
@@ -67,18 +89,19 @@ class AiChatCubit extends Cubit<AiChatState> {
       } else {
         emit(
           AiChatLoaded(
-            "It seems I couldn't generate a clear analysis based on the data right now. Could you try again or perhaps provide more specific data?",
+            "I'm sorry, I couldn't generate a response. Please try rephrasing your question.",
           ),
         );
       }
     } catch (e) {
+      // This catch block handles errors during the actual content generation,
+      // not initialization.
       emit(
         AiChatError(
-          "Oops! Something went wrong while trying to analyze the data: ${e.toString()}\nPlease check your internet connection and Gemini API key, then try again.",
+          "We're having trouble getting a response from our AI. Please try again.",
         ),
       );
-      print('Error calling Gemini API: $e'); // For debugging
+      print('Error calling Gemini API: $e');
     }
   }
-}// For debugging purposes
- 
+}
