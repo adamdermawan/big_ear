@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../viewmodels/user_cubit.dart';
 import '../viewmodels/user_state.dart';
+import 'package:big_ear/modules/user/views/register_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -127,7 +128,11 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       const Text("Don't have an account?"),
                       TextButton(
-                        onPressed: () {}, // To-do: Sign up
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const RegisterPage()),
+                           );
+                          }, // To-do: Sign up
                         child: const Text(
                           "Sign Up",
                           style: TextStyle(color: Colors.green),
