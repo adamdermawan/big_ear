@@ -191,7 +191,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
             const SizedBox(height: 8),
             if (_isGuest)
               const Text(
-                'You are currently browsing as a guest. Guests cannot write reviews.',
+                'Guest Tidak bisa menulis review 😊',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
@@ -204,24 +204,10 @@ class _ReviewFormViewState extends State<ReviewFormView> {
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-             backgroundColor: Colors.red,
+             backgroundColor: primaryBlue,
               foregroundColor: Colors.white),
-            child: const Text('Batal'), // Set text color to black
+            child: const Text('Oke'), // Set text color to black
         ),
-
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context); // First close the dialog
-              Navigator.push(
-               context,
-                MaterialPageRoute(builder: (context) => const LoginView()), // Go to LoginView
-               );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primaryBlue,
-              foregroundColor: Colors.white),
-            child: const Text('Login'),
-          ),
         ],
       ),
     );

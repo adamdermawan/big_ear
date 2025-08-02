@@ -1,4 +1,3 @@
-// lib/modules/user/services/auth_service.dart
 import 'dart:convert';
 import 'package:big_ear/modules/shared/constants/url_path.dart';
 import 'package:http/http.dart' as http;
@@ -297,6 +296,114 @@ class AuthService {
     } catch (e) {
       print('❌ Register error: $e');
       throw Exception('Registration failed: $e');
+    }
+  }
+
+  // NEW: Update user profile
+  Future<Map<String, dynamic>> updateProfile({
+    required String name,
+    required String email,
+  }) async {
+    try {
+      print('🔄 Attempting profile update');
+      print('📧 New Email: $email');
+      print('👤 New Name: $name');
+      
+      final response = await http.put(
+        Uri.parse('$_baseUrl/profile'),
+        headers: await getHeaders(includeAuth: true),
+        body: jsonEncode({
+          'name': name.trim(),
+          'email': email.trim().toLowerCase(),
+        }),
+      ).timeout(const Duration(seconds: 30));
+      
+      print('📡 Profile update response status: ${response.statusCode}');
+      print('📡 Profile update response body: ${response.body}');
+      
+      if (response.statusCode == 200) {
+        final userData = jsonDecode(response.body);
+        
+        // Update stored user data
+        await saveUserData(userData);
+        print('✅ Profile updated successfully');
+        
+        return {
+          'success': true,
+          'user': userData,
+          'message': 'Profile updated successfully'
+        };
+      } else if (response.statusCode == 401) {
+        throw Exception('Authentication required');
+      } else if (response.statusCode == 409) {
+        throw Exception('Email is already taken');
+      } else if (response.statusCode == 400) {
+        final errorData = jsonDecode(response.body);
+        throw Exception(errorData['error'] ?? 'Invalid data');
+      } else {
+        throw Exception('Server error: ${response.statusCode} - ${response.body}');
+      }
+    } on http.ClientException catch (e) {
+      print('❌ Network error: $e');
+      throw Exception('Network error: Cannot connect to server');
+    } on FormatException catch (e) {
+      print('❌ JSON parsing error: $e');
+      throw Exception('Invalid response from server');
+    } catch (e) {
+      print('❌ Profile update error: $e');
+      throw Exception('Profile update failed: $e');
+    }
+  }
+
+  // NEW: Change password
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      print('🔄 Attempting password change');
+      
+      final response = await http.put(
+        Uri.parse('$_baseUrl/change-password'),
+        headers: await getHeaders(includeAuth: true),
+        body: jsonEncode({
+          'currentPassword': currentPassword,
+          'newPassword': newPassword,
+        }),
+      ).timeout(const Duration(seconds: 30));
+      
+      print('📡 Password change response status: ${response.statusCode}');
+      print('📡 Password change response body: ${response.body}');
+      
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print('✅ Password changed successfully');
+        
+        return {
+          'success': true,
+          'message': responseData['message'] ?? 'Password changed successfully'
+        };
+      } else if (response.statusCode == 401) {
+        final errorData = jsonDecode(response.body);
+        if (errorData['error'] == 'Current password is incorrect') {
+          throw Exception('Current password is incorrect');
+        }
+        throw Exception('Authentication required');
+      } else if (response.statusCode == 400) {
+        final errorData = jsonDecode(response.body);
+        throw Exception(errorData['error'] ?? 'Invalid data');
+      } else {
+        throw Exception('Server error: ${response.statusCode} - ${response.body}');
+      }
+    } on http.ClientException catch (e) {
+      print('❌ Network error: $e');
+      throw Exception('Network error: Cannot connect to server');
+    } on FormatException catch (e) {
+      print('❌ JSON parsing error: $e');
+      throw Exception('Invalid response from server');
+    } catch (e) {
+      print('❌ Password change error: $e');
+      throw Exception('Password change failed: $e');
     }
   }
 

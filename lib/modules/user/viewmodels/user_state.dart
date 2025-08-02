@@ -17,3 +17,5 @@ class UserError extends UserState {
   final String message;
   UserError(this.message);
 }
+
+class UserPasswordChanged extends UserState {}

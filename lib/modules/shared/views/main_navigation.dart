@@ -60,7 +60,7 @@ class _MainNavigationState extends State<MainNavigation> {
             type: BottomNavigationBarType.fixed,
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Produk'),
+              BottomNavigationBarItem(icon: Icon(Icons.bed), label: 'Produk'),
               BottomNavigationBarItem(icon: Icon(Icons.psychology_alt), label: 'AI Assistant'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
             ],

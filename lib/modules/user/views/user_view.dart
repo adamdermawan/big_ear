@@ -1,5 +1,6 @@
 import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:big_ear/modules/user/views/edit_profile_view.dart';
+import 'package:big_ear/modules/user/views/change_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../viewmodels/user_cubit.dart';
@@ -63,7 +64,7 @@ class UserView extends StatelessWidget {
                 if (isAuthenticated) ...[
                   // --- Show these options if LOGGED IN ---
                   AccountTile(
-                    title: "Edit Profile",
+                    title: "Ubah Profil",
                     icon: Icons.edit,
                     onTap: () {
                       Navigator.push(
@@ -73,15 +74,16 @@ class UserView extends StatelessWidget {
                     },
                   ),
                   AccountTile(
-                    title: "My Orders",
-                    icon: Icons.shopping_bag,
-                    onTap: () {},
+                    title: "Ubah Password",
+                    icon: Icons.security_rounded,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ChangePasswordView()),
+                      );
+                    },
                   ),
-                  AccountTile(
-                    title: "Settings",
-                    icon: Icons.settings,
-                    onTap: () {},
-                  ),
+                  
                   const Spacer(),
                   AccountTile(
                     title: "Log Out",

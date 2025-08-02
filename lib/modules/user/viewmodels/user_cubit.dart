@@ -86,6 +86,60 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  /// NEW: Updates user profile (name and email)
+  void updateProfile({required String name, required String email}) async {
+    emit(UserLoading());
+    try {
+      final response = await _authService.updateProfile(name: name, email: email);
+      final updatedUser = User.fromJson(response['user']);
+      
+      // Update local storage
+      await _saveUser(updatedUser);
+      
+      emit(UserAuthenticated(updatedUser));
+    } catch (e) {
+      // Get current state to restore it
+      final currentState = state;
+      if (currentState is UserAuthenticated) {
+        emit(UserAuthenticated(currentState.user));
+      }
+      emit(UserError(e.toString().replaceAll('Exception: ', '')));
+    }
+  }
+
+  /// NEW: Changes user password
+  void changePassword({required String currentPassword, required String newPassword}) async {
+    emit(UserLoading());
+    try {
+      await _authService.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+      
+      // Keep the current user state but show success
+      final currentState = state;
+      if (currentState is UserAuthenticated) {
+        emit(UserAuthenticated(currentState.user));
+      }
+      
+      // Emit a temporary success state
+      emit(UserPasswordChanged());
+      
+      // After a brief moment, restore the authenticated state
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (currentState is UserAuthenticated) {
+        emit(UserAuthenticated(currentState.user));
+      }
+    } catch (e) {
+      // Get current state to restore it
+      final currentState = state;
+      if (currentState is UserAuthenticated) {
+        emit(UserAuthenticated(currentState.user));
+      }
+      emit(UserError(e.toString().replaceAll('Exception: ', '')));
+    }
+  }
+
   /// Logs in a user as a guest.
   void loginAsGuest() async {
     emit(UserLoading());
