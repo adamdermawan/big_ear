@@ -86,11 +86,11 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  /// NEW: Updates user profile (name and email)
-  void updateProfile({required String name, required String email}) async {
+  /// NEW: Updates user profile (name only)
+  void updateProfile({required String name}) async {
     emit(UserLoading());
     try {
-      final response = await _authService.updateProfile(name: name, email: email);
+      final response = await _authService.updateProfile(name: name);
       final updatedUser = User.fromJson(response['user']);
       
       // Update local storage

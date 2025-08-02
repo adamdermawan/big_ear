@@ -19,7 +19,6 @@ class _EditProfileViewState extends State<EditProfileView> {
   
   bool _isLoading = false;
   String? _originalName;
-  String? _originalEmail;
 
   @override
   void initState() {
@@ -29,13 +28,11 @@ class _EditProfileViewState extends State<EditProfileView> {
       nameController.text = userState.user.name;
       emailController.text = userState.user.email;
       _originalName = userState.user.name;
-      _originalEmail = userState.user.email;
     }
   }
 
   bool _hasChanges() {
-    return nameController.text.trim() != _originalName ||
-           emailController.text.trim() != _originalEmail;
+    return nameController.text.trim() != _originalName;
   }
 
   void _onSave() async {
@@ -52,7 +49,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     try {
       context.read<UserCubit>().updateProfile(
         name: nameController.text.trim(),
-        email: emailController.text.trim(),
       );
     } finally {
       setState(() => _isLoading = false);
@@ -71,9 +67,8 @@ class _EditProfileViewState extends State<EditProfileView> {
               backgroundColor: Colors.green,
             ),
           );
-          // Update the original values
+          // Update the original value
           _originalName = state.user.name;
-          _originalEmail = state.user.email;
           Navigator.pop(context); // Go back to user view
         } else if (state is UserError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -124,20 +119,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: emailController,
+                  enabled: false, // Make email read-only
                   decoration: const InputDecoration(
                     labelText: "Email",
                     border: OutlineInputBorder(),
+                    helperText: "Jika ingin mengubah email lebih baik buat akun baru",
+                    helperStyle: TextStyle(color: Colors.grey),
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Email is required';
-                    }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  onChanged: (_) => setState(() {}), // Trigger rebuild to show/hide save button
                 ),
                 const SizedBox(height: 32),
                 SizedBox(

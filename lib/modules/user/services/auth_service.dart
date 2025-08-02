@@ -1,3 +1,4 @@
+// lib/modules/user/services/auth_service.dart
 import 'dart:convert';
 import 'package:big_ear/modules/shared/constants/url_path.dart';
 import 'package:http/http.dart' as http;
@@ -299,14 +300,12 @@ class AuthService {
     }
   }
 
-  // NEW: Update user profile
+  // NEW: Update user profile (name only)
   Future<Map<String, dynamic>> updateProfile({
     required String name,
-    required String email,
   }) async {
     try {
       print('🔄 Attempting profile update');
-      print('📧 New Email: $email');
       print('👤 New Name: $name');
       
       final response = await http.put(
@@ -314,7 +313,6 @@ class AuthService {
         headers: await getHeaders(includeAuth: true),
         body: jsonEncode({
           'name': name.trim(),
-          'email': email.trim().toLowerCase(),
         }),
       ).timeout(const Duration(seconds: 30));
       
@@ -335,8 +333,6 @@ class AuthService {
         };
       } else if (response.statusCode == 401) {
         throw Exception('Authentication required');
-      } else if (response.statusCode == 409) {
-        throw Exception('Email is already taken');
       } else if (response.statusCode == 400) {
         final errorData = jsonDecode(response.body);
         throw Exception(errorData['error'] ?? 'Invalid data');
@@ -445,7 +441,7 @@ class AuthService {
   Future<bool> testConnection() async {
     try {
       final response = await http.get(
-        Uri.parse('${ApiConstants.baseUrl} + /test'),
+        Uri.parse('${ApiConstants.baseUrl}/test'),
       ).timeout(const Duration(seconds: 10));
       
       return response.statusCode == 200;
