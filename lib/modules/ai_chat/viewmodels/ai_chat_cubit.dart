@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:big_ear/core/mock/gemini_data_formatter.dart';
 import 'ai_chat_state.dart';
- // MODIFIED: Import our new message model
 
 const String _apiKey = 'YOUR_GEMINI_API_KEY'; // IMPORTANT: Use your actual key
 
@@ -13,7 +12,6 @@ class AiChatCubit extends Cubit<AiChatState> {
   late final GenerativeModel _model;
   bool _isInitialized = false;
 
-  // MODIFIED: The initial state is now AiChatSuccess with an empty message list.
   AiChatCubit() : super(const AiChatSuccess()) {
     if (_apiKey == 'YOUR_GEMINI_API_KEY' || _apiKey.isEmpty) {
       emit(const AiChatError("Something Went Wrong."));
@@ -33,7 +31,6 @@ class AiChatCubit extends Cubit<AiChatState> {
       return;
     }
     
-    // MODIFIED: The entire logic for managing the chat list.
     final currentState = state;
     if (currentState is! AiChatSuccess) return;
 
@@ -45,7 +42,9 @@ class AiChatCubit extends Cubit<AiChatState> {
     ));
 
     try {
-      final String productDataContext = formatDataForGemini();
+      // MODIFIED: Use the new async version that fetches real data
+      final String productDataContext = await formatDataForGemini();
+      
       final String finalPrompt = """
       **ROLE AND INSTRUCTION:**
       Anda adalah asisten AI yang ramah dan membantu untuk aplikasi e-commerce yang menjual kasur ,springbed dan produk perlengkapan tidur.

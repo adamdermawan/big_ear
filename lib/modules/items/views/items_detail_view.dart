@@ -2,6 +2,7 @@ import 'package:big_ear/modules/items/models/spring_bed_item.dart'; // Import Sp
 import 'package:big_ear/modules/items/views/review_form_view.dart';
 import 'package:big_ear/modules/items/views/review_list_view.dart';
 import 'package:big_ear/modules/shared/constants/colors.dart';
+import 'package:big_ear/modules/shared/constants/url_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -20,12 +21,14 @@ class ItemsDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              item.imageAsset, // Use item.imageAsset
-              width: double.infinity,
-              height: 400,
-              fit: BoxFit.cover,
-            ),
+                Image.network(
+                '${ApiConstants.url}${item.imageAsset}',
+                width: double.infinity,
+                height: 400,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image, size: 48),
+              ),
             const SizedBox(height: 16),
             Text(
               item.name, // Use item.name

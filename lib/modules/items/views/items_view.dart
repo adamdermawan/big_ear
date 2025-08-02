@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/url_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -94,8 +95,8 @@ class _ItemsViewState extends State<ItemsView> {
                                 ),
                               );
                             },
-                            leading: Image.asset(
-                              item.imageAsset,
+                            leading: Image.network(
+                            '${ApiConstants.url}${item.imageAsset}',
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
