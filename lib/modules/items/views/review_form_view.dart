@@ -3,6 +3,7 @@ import 'package:big_ear/modules/items/services/review_service.dart';
 import 'package:big_ear/modules/shared/constants/url_path.dart';
 import 'package:big_ear/modules/user/services/auth_service.dart';
 import 'package:big_ear/modules/shared/constants/colors.dart';
+import 'package:big_ear/modules/user/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -181,12 +182,12 @@ class _ReviewFormViewState extends State<ReviewFormView> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Login Required'),
+        title: const Text('Login Untuk Menulis Review'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('You need to login to submit a review.'),
+            const Text('Kamu harus login untuk menulis review.'),
             const SizedBox(height: 8),
             if (_isGuest)
               const Text(
@@ -200,15 +201,25 @@ class _ReviewFormViewState extends State<ReviewFormView> {
           ],
         ),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+              style: ElevatedButton.styleFrom(
+             backgroundColor: Colors.red,
+              foregroundColor: Colors.white),
+            child: const Text('Batal'), // Set text color to black
+        ),
+
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
-              // Navigator.pushNamed(context, '/login');
+              Navigator.pop(context); // First close the dialog
+              Navigator.push(
+               context,
+                MaterialPageRoute(builder: (context) => const LoginView()), // Go to LoginView
+               );
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryBlue,
+              foregroundColor: Colors.white),
             child: const Text('Login'),
           ),
         ],
@@ -239,7 +250,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
               children: [
                 if (_isAuthenticated) ...[
                   const Text(
-                    'You can write reviews',
+                    'Kamu Bisa menulis review untuk produk ini 😃',
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
@@ -247,7 +258,7 @@ class _ReviewFormViewState extends State<ReviewFormView> {
                   ),
                   if (_userData != null)
                     Text(
-                      'Logged in as: ${_userData!['name']} ($_userType)',
+                      'Masuk Sebagai: ${_userData!['name']}',
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,

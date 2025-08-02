@@ -27,6 +27,9 @@ class Review {
       userName: json['userName'] as String?,
       rating: (json['rating'] ?? 0.0).toDouble(),
       comment: json['comment'] ?? '',
+      createdAt: json['createdAt'] != null
+        ? DateTime.tryParse(json['createdAt']) // Use safe parsing
+        : null,
     );
   }
 

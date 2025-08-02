@@ -1,5 +1,4 @@
 import 'package:big_ear/modules/shared/constants/colors.dart';
-import 'package:big_ear/modules/shared/views/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../viewmodels/user_cubit.dart';
@@ -7,7 +6,9 @@ import '../viewmodels/user_state.dart';
 import 'package:big_ear/modules/user/views/register_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  final VoidCallback? onSwitchToRegister;
+
+  const LoginView({super.key, this.onSwitchToRegister});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -41,14 +42,9 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
-          if (state is UserAuthenticated || state is UserGuest) {
-            // Navigate to the main user view on successful login/guest mode
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const MainNavigation()),
-            );
-          } else if (state is UserError) {
-            // Show an error message if login fails
+          // REMOVED: All navigation code - let MainNavigation handle state changes
+          if (state is UserError) {
+            // Only show error messages here
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.message)));
           }
@@ -128,11 +124,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       const Text("Don't have an account?"),
                       TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => const RegisterPage()),
-                           );
-                          }, // To-do: Sign up
+                        onPressed: widget.onSwitchToRegister, // Use the callback from MainNavigation
                         child: const Text(
                           "Sign Up",
                           style: TextStyle(color: Colors.green),

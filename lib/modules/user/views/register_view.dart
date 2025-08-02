@@ -8,7 +8,9 @@ import '../viewmodels/user_cubit.dart';
 import '../viewmodels/user_state.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final VoidCallback? onSwitchToLogin;
+
+  const RegisterPage({super.key, this.onSwitchToLogin});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();

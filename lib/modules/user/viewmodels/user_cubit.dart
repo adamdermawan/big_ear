@@ -2,24 +2,24 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../services/auth_service.dart'; // 👈 Import the service
+import '../services/auth_service.dart';
 import '../models/user.dart';
 import 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
-  final AuthService _authService = AuthService(); // 👈 Instantiate the service
+  final AuthService _authService = AuthService();
 
   UserCubit() : super(UserInitial()) {
     _loadUser();
   }
 
   static const String _userKey = 'loggedInUser';
-  static const String _tokenKey = 'authToken'; // 👈 For storing the JWT
+  static const String _tokenKey = 'authToken';
 
   Future<void> _saveSession(User user, String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_userKey, jsonEncode(user.toJson()));
-    await prefs.setString(_tokenKey, token); // 👈 Save the token
+    await prefs.setString(_tokenKey, token);
   }
  
   Future<void> _loadUser() async {
@@ -64,7 +64,7 @@ class UserCubit extends Cubit<UserState> {
       final user = User.fromJson(response['user']);
       final token = response['token'];
 
-      await _saveSession(user, token); // 👈 Save both user and token
+      await _saveSession(user, token);
       emit(UserAuthenticated(user));
     } catch (e) {
       emit(UserError("Invalid email or password. Please try again."));
@@ -90,13 +90,26 @@ class UserCubit extends Cubit<UserState> {
   void loginAsGuest() async {
     emit(UserLoading());
     await Future.delayed(const Duration(seconds: 1)); // Simulate delay
-    await _removeUser(); // Ensure no previous user is saved
+    
+    // Clear any previous user data
+    await _removeUser();
+    
+    // Set guest mode in AuthService
+    await _authService.setGuestMode(true);
+    
     emit(UserGuest());
   }
 
   /// Logs the current user out.
   void logout() async {
+    emit(UserLoading());
+    
+    // Clear UserCubit's stored data
     await _removeUser();
+    
+    // IMPORTANT: Also clear AuthService's stored data
+    await _authService.logout();
+    
     emit(UserInitial());
   }
 }
