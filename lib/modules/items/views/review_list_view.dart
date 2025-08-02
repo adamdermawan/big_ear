@@ -175,9 +175,9 @@ class _ReviewListViewState extends State<ReviewListView> {
                       children: [
                         Icon(Icons.rate_review_outlined, size: 64, color: Colors.grey),
                         SizedBox(height: 16),
-                        Text('No reviews yet', style: TextStyle(fontSize: 18)),
+                        Text('Belum ada review', style: TextStyle(fontSize: 18)),
                         SizedBox(height: 8),
-                        Text('Be the first to review this product!'),
+                        Text('Jadilah yang pertama untuk review produk ini!'),
                       ],
                     ),
                   ),

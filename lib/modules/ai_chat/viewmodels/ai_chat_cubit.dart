@@ -3,7 +3,7 @@
 import 'package:big_ear/modules/ai_chat/model/chat_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:big_ear/core/mock/gemini_data_formatter.dart';
+import 'package:big_ear/modules/ai_chat/model/gemini_data_formatter.dart';
 import 'ai_chat_state.dart';
 
 const String _apiKey = 'YOUR_GEMINI_API_KEY'; // IMPORTANT: Use your actual key

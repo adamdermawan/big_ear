@@ -1,4 +1,3 @@
-// lib/core/mock/gemini_data_formatter.dart
 import 'package:big_ear/modules/items/services/springbed_item_service.dart';
 import 'package:big_ear/modules/items/models/spring_bed_item.dart';
 

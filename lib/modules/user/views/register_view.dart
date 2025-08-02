@@ -1,3 +1,4 @@
+import 'package:big_ear/modules/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -326,59 +327,54 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                     ),
                                   ),
-                            const SizedBox(height: 20),
-                            // The image doesn't show OR or Google sign-up for login,
-                            // but keeping it here as it was part of previous requests for register.
-                            const Divider(height: 40, thickness: 1),
-                            const Text(
-                              'OR',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            const Divider(height: 40, thickness: 1),
-                            SizedBox(
-                              width: double.infinity,
-                              child: OutlinedButton.icon(
-                                icon: const Icon(FontAwesomeIcons.google, color: Colors.black54),
-                                label: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Text('G', style: TextStyle(color: Colors.blue)),
-                                    Text('o', style: TextStyle(color: Colors.red)),
-                                    Text('o', style: TextStyle(color: Colors.yellow)),
-                                    Text('g', style: TextStyle(color: Colors.blue)),
-                                    Text('l', style: TextStyle(color: Colors.green)),
-                                    Text('e', style: TextStyle(color: Colors.red)),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Sign up',
-                                      style: TextStyle(fontSize: 16, color: Colors.black87), // Text color for outlined button
-                                    ),
-                                  ],
-                                ),
-                                onPressed: _isLoading ? null : _signInWithGoogle,
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.black87,
-                                  padding: const EdgeInsets.symmetric(vertical: 15),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  side: BorderSide(color: Colors.grey.shade400), // Slightly darker border for contrast
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Navigate to Login Page (Demo)')),
-                                );
-                              },
-                              child: const Text(
-                                'Already have an account? Log in',
-                                style: TextStyle(color: Colors.blueAccent),
-                              ),
-                            ),
+                            // const SizedBox(height: 20),
+                            // // The image doesn't show OR or Google sign-up for login,
+                            // // but keeping it here as it was part of previous requests for register.
+                            // const Divider(height: 40, thickness: 1),
+                            // const Text(
+                            //   'OR',
+                            //   style: TextStyle(color: Colors.grey),
+                            // ),
+                            // const Divider(height: 40, thickness: 1),
+                            // SizedBox(
+                            //   width: double.infinity,
+                            //   child: OutlinedButton.icon(
+                            //     icon: const Icon(FontAwesomeIcons.google, color: Colors.black54),
+                            //     label: Row(
+                            //       mainAxisSize: MainAxisSize.min,
+                            //       children: const [
+                            //         Text('G', style: TextStyle(color: Colors.blue)),
+                            //         Text('o', style: TextStyle(color: Colors.red)),
+                            //         Text('o', style: TextStyle(color: Colors.yellow)),
+                            //         Text('g', style: TextStyle(color: Colors.blue)),
+                            //         Text('l', style: TextStyle(color: Colors.green)),
+                            //         Text('e', style: TextStyle(color: Colors.red)),
+                            //         SizedBox(width: 8),
+                            //         Text(
+                            //           'Sign up',
+                            //           style: TextStyle(fontSize: 16, color: Colors.black87), // Text color for outlined button
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     onPressed: _isLoading ? null : _signInWithGoogle,
+                            //     style: OutlinedButton.styleFrom(
+                            //       foregroundColor: Colors.black87,
+                            //       padding: const EdgeInsets.symmetric(vertical: 15),
+                            //       shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(8.0),
+                            //       ),
+                            //       side: BorderSide(color: Colors.grey.shade400), // Slightly darker border for contrast
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(height: 20),
+                            // TextButton(
+                            //   onPressed: () => Navigator.pop(context),
+                            //   child: const Text(
+                            //     'Already have an account? Log in',
+                            //     style: TextStyle(color: primaryBlue),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

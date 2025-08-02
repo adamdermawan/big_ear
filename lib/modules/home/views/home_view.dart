@@ -69,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
                               Icon(Icons.bed, color: Colors.black),
                               SizedBox(width: 4),
                               Text(
-                                'BIG EAR',
+                                'B I G   E A R',
                                 style: TextStyle(
                                   fontFamily: 'Ubuntu',
                                   fontSize: 16,
@@ -96,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                                     name = userState.user.name; // Assuming user.name exists
                                   }
                                   return Text(
-                                    'Hi, $name',
+                                    'Hi, ${name.split(' ')[0]}',
                                     style: const TextStyle(
                                       fontFamily: 'Ubuntu',
                                       fontSize: 24,
