@@ -93,18 +93,26 @@ class UserView extends StatelessWidget {
                       final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: const Text('Confirm Logout'),
-                          content: const Text('Are you sure you want to log out?'),
+                          title: const Text('Konfirmasi Keluar'),
+                          content: const Text('Kamu yakin ingin keluar?'),
                           actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: const Text('Logout'),
-                            ),
-                          ],
+                             ElevatedButton(
+            onPressed: () => Navigator.pop(context, false),
+              style: ElevatedButton.styleFrom(
+              backgroundColor: primaryBlue,
+              foregroundColor: Colors.white),
+            child: const Text('Batal'), // Set text color to black
+        ),
+
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white),
+            child: const Text('Keluar'),
+          ),
+        ],
+                          
                         ),
                       );
 

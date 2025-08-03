@@ -21,6 +21,7 @@ class ItemsView extends StatefulWidget {
 class _ItemsViewState extends State<ItemsView> {
   String searchQuery = '';
   List<SpringBedItem> _allItems = []; // Store all items
+  String? _selectedFilter; // null, 'highest', 'lowest'
 
   @override
   void initState() {
@@ -36,18 +37,34 @@ class _ItemsViewState extends State<ItemsView> {
     context.read<ItemsCubit>().loadItems();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final filteredItems = _allItems
+  List<SpringBedItem> _getFilteredAndSortedItems() {
+    // First filter by search query
+    List<SpringBedItem> filteredItems = _allItems
         .where(
           (item) => item.name.toLowerCase().contains(searchQuery.toLowerCase()),
         )
         .toList();
 
+    // Then sort by rating based on selected filter
+    if (_selectedFilter == 'highest') {
+      filteredItems.sort((a, b) => b.rate.compareTo(a.rate));
+    } else if (_selectedFilter == 'lowest') {
+      filteredItems.sort((a, b) => a.rate.compareTo(b.rate));
+    }
+    // If _selectedFilter is null, keep original order
+
+    return filteredItems;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredItems = _getFilteredAndSortedItems();
+
     return Scaffold(
       appBar: AppBar(title: const Text("Produk Kami")),
       body: Column(
         children: [
+          // Search Bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
@@ -65,6 +82,71 @@ class _ItemsViewState extends State<ItemsView> {
               },
             ),
           ),
+          
+          // Rating Filter Chips
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                const Text(
+                  'Urutkan: ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterChip(
+                          label: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.star, size: 16, color: Colors.amber),
+                              SizedBox(width: 4),
+                              Text('Tertinggi'),
+                            ],
+                          ),
+                          selected: _selectedFilter == 'highest',
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedFilter = selected ? 'highest' : null;
+                            });
+                          },
+                          selectedColor: Colors.amber.withOpacity(0.3),
+                        ),
+                        const SizedBox(width: 8),
+                        FilterChip(
+                          label: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.star_border, size: 16),
+                              SizedBox(width: 4),
+                              Text('Terendah'),
+                            ],
+                          ),
+                          selected: _selectedFilter == 'lowest',
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedFilter = selected ? 'lowest' : null;
+                            });
+                          },
+                          selectedColor: Colors.grey.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 8),
+          
+          // Items List
           Expanded(
             child: BlocBuilder<ItemsCubit, ItemsState>(
               builder: (context, state) {
@@ -97,7 +179,7 @@ class _ItemsViewState extends State<ItemsView> {
                               );
                             },
                             leading: Image.network(
-                            '${ApiConstants.url}${item.imageAsset}',
+                              '${ApiConstants.url}${item.imageAsset}',
                               width: 48,
                               height: 48,
                               fit: BoxFit.cover,
@@ -131,14 +213,14 @@ class _ItemsViewState extends State<ItemsView> {
                   );
                   
                 } else if (state is ItemsError) {
-  return ErrorView(
-    message: state.error,
-    onRetry: () {
-      context.read<ItemsCubit>().loadItems(); // retry logic
-    },
-  );
-}
-return const Center(child: Text('Memuat...'));
+                  return ErrorView(
+                    message: state.error,
+                    onRetry: () {
+                      context.read<ItemsCubit>().loadItems(); // retry logic
+                    },
+                  );
+                }
+                return const Center(child: Text('Memuat...'));
               },
             ),
           ),

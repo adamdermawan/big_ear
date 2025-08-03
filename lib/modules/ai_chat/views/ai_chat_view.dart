@@ -136,14 +136,19 @@ class _AIChatViewState extends State<AIChatView> {
     );
   }
 
-  Widget _buildPromptInput() {
+Widget _buildPromptInput() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0, left: 4, right: 4),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end, // Align to bottom when text expands
         children: [
           Expanded(
             child: TextField(
               controller: _promptController,
+              maxLines: null, // Allow unlimited lines
+              minLines: 1,    // Start with 1 line
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline, // Allow new lines
               decoration: InputDecoration(
                 hintText: 'Tulis pertanyaanmu disini...',
                 border: OutlineInputBorder(
@@ -165,7 +170,8 @@ class _AIChatViewState extends State<AIChatView> {
                   vertical: 12,
                 ),
               ),
-              onSubmitted: (_) => _submitPrompt(),
+              // Remove onSubmitted to prevent sending on Enter
+              // onSubmitted: (_) => _submitPrompt(),
             ),
           ),
           const SizedBox(width: 8),
